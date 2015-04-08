@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/HelpButton"
-        android:id="@+id/button"
+        android:id="@+id/btHelp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="106dp"
         android:onClick="showHelp" />
@@ -26,19 +26,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/StartButton"
-        android:id="@+id/button2"
-        android:layout_below="@+id/button"
-        android:layout_alignLeft="@+id/button"
-        android:layout_alignStart="@+id/button"
+        android:id="@+id/btStart"
+        android:layout_below="@+id/btHelp"
+        android:layout_alignLeft="@+id/btHelp"
+        android:layout_alignStart="@+id/btHelp"
         android:onClick="showGameStarter" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/QuitButton"
-        android:id="@+id/button3"
-        android:layout_below="@+id/button2"
-        android:layout_alignLeft="@+id/button2"
-        android:layout_alignStart="@+id/button2" />
+        android:id="@+id/btQuit"
+        android:layout_below="@+id/btStart"
+        android:layout_alignLeft="@+id/btStart"
+        android:layout_alignStart="@+id/btStart" />
 
 </RelativeLayout>
