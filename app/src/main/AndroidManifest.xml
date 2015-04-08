@@ -16,6 +16,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".HelpActivity"
+            android:label="@string/title_activity_help" >
+        </activity>
+        <activity
+            android:name=".GameStarterActivity"
+            android:label="@string/title_activity_game_starter" >
+        </activity>
     </application>
 
 </manifest>

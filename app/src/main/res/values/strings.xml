@@ -3,4 +3,10 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_help">HelpActivity</string>
+    <string name="title_activity_game_starter">GameStarterActivity</string>
+    <string name="Title">Minesweeper</string>
+    <string name="QuitButton">Quit</string>
+    <string name="StartButton">Start</string>
+    <string name="HelpButton">Help</string>
 </resources>
