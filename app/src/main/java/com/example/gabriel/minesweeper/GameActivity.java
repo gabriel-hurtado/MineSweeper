@@ -8,8 +8,7 @@ import android.os.Bundle;
 public class GameActivity extends Activity {
     private Intent in;
     private Bundle infos;
-    private String helpString;
-    private Boolean help;
+    private Boolean timer;
     private int percentage;
 
     @Override
@@ -18,7 +17,7 @@ public class GameActivity extends Activity {
         setContentView(R.layout.activity_game);
         in = getIntent();
         infos = in.getExtras();
-        help = infos.getBoolean("help");
+        timer = infos.getBoolean("timer");
         percentage = infos.getInt("percentage");
 
 

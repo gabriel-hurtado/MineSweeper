@@ -17,7 +17,7 @@ public class GameStarterActivity extends Activity {
     }
 
     /*In the class with the help checkbox
-     starterInfos.putBoolean("help", boolean value) */
+     starterInfos.putBoolean("timer", boolean value) */
 
         /*In the class with the help percentages handler
      starterInfos.putBoolean("percentage", int value) */
