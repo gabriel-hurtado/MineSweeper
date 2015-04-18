@@ -11,7 +11,6 @@ import android.widget.RadioGroup;
 
 
 public class GameStarterActivity extends Activity {
-     Intent in = new Intent(this, GameActivity.class);
      Bundle starterInfos = new Bundle();
 
     @Override
@@ -76,7 +75,7 @@ public class GameStarterActivity extends Activity {
                 findViewById(R.id.GameStarterEditText2);
         String size = et2.getText().toString();
         starterInfos.putString("size", size);
-
+        Intent in = new Intent(this, GameActivity.class);
         in.putExtras(starterInfos);
         startActivity(in);
     }

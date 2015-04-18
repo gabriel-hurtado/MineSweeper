@@ -18,28 +18,27 @@ public class GameActivity extends Activity {
     private int size;
     private String UserName;
     private grid gameGeneration;
-    private TextView t;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-        t=(TextView)findViewById(R.id.myTextView);
+        TextView t=(TextView)findViewById(R.id.myTextView);
         in = getIntent();
         infos = in.getExtras();
         timer = infos.getBoolean("timer");
         percentage = infos.getDouble("percentage");
-        size = infos.getInt("size");
+        size = Integer.parseInt(infos.getString("size"));
         UserName = infos.getString("UserName");
         gameGeneration= new grid(size);
         gameGeneration.putMines(generateMines(percentage,size));
         gameGeneration.addNumberOfMinesNear();
-        gameGeneration.test();
 
     }
 
     public class grid {
-      private int[][] gridArray;
+      public int[][] gridArray;
 
         public grid(int size){
            this.gridArray= new int[size][size];
@@ -64,8 +63,8 @@ public class GameActivity extends Activity {
         private int minesNear(int i,int j){
              int value=0;
             /*counter the number of mines near and return an int*/
-            for(int bouclei=0;i<size;i++){
-                for(int bouclej=0;j<size;j++) {
+            for(int bouclei=0;bouclei<size;bouclei++){
+                for(int bouclej=0;bouclej<size;bouclej++) {
                     if (this.gridArray[bouclei][bouclej]==-1){
                         if (((bouclei>=i-1)&&(bouclei<=i+1) && ((bouclej>=j-1)&&(bouclej<=j+1)))){
                             value+=1;
@@ -77,14 +76,7 @@ public class GameActivity extends Activity {
             return value;
         }
 
-        private void test(){
-            for(int i = 0; i < size-1; i++) {
-                for (int j = 0; j < size - 1; j++) {
-                    t.append(""+this.gridArray[i][j]);
-                }
-                t.append("\n");
-            }
-        }
+
 
     }
 
@@ -92,7 +84,7 @@ public class GameActivity extends Activity {
         List<Integer> list = new ArrayList<>();
         int[] listArray;
         int numberOfMines = (int) ((size*size)*percentage);
-        for(int i = 0; i < numberOfMines-1;)
+        for(int i = 0; i < numberOfMines;)
         {
 
             //Number between 0 and max
