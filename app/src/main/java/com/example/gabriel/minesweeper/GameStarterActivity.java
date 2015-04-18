@@ -1,18 +1,29 @@
 package com.example.gabriel.minesweeper;
 
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
 
 
-public class GameStarterActivity extends ActionBarActivity {
+public class GameStarterActivity extends Activity {
+    private Intent in = new Intent(this, GameActivity.class);
+    private Bundle starterInfos = new Bundle();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_starter);
     }
 
+    /*In the class with the help checkbox
+     starterInfos.putBoolean("help", boolean value) */
 
+        /*In the class with the help percentages handler
+     starterInfos.putBoolean("percentage", int value) */
+
+    public void showGame (View clickedButton) {
+        in.putExtras(starterInfos);
+        startActivity(in);
+    }
 }
