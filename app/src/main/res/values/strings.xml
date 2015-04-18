@@ -33,6 +33,7 @@
     <string name="SizeGrill">Size Grill : </string>
     <string name="Timer">Timer : </string>
     <string name="PercentMines">% Mines : </string>
+    <string name="title_activity_game">GameActivity</string>
 
 
 </resources>
