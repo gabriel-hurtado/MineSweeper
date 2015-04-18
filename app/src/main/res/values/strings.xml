@@ -3,10 +3,33 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+    <!-- TitlesManifest -->
     <string name="title_activity_help">HelpActivity</string>
     <string name="title_activity_game_starter">GameStarterActivity</string>
-    <string name="Title">Minesweeper</string>
+
+    <!-- Titles -->
+    <string name="TitleMainMenu">Minesweeper</string>
+    <string name="TitleHelp">Help</string>
+    <string name="TitleGameStarter">Game Starter</string>
+
+    <!-- Buttons -->
+    <string name="ReturnMainMenuButton">Return Main Menu</string>
     <string name="QuitButton">Quit</string>
     <string name="StartButton">Start</string>
     <string name="HelpButton">Help</string>
+    <string name="PlayButton">Play !</string>
+
+    <!-- RadioButtons -->
+    <string name="FewMinesRadioButton">15 %</string>
+    <string name="MediumMinesRadioButton">25 %</string>
+    <string name="HighMinesRadioButton">35 %</string>
+
+    <!-- TextView -->
+    <string name="UserName">User Name : </string>
+    <string name="SizeGrill">Size Grill : </string>
+    <string name="Timer">Timer : </string>
+    <string name="PercentMines">% Mines : </string>
+
+
 </resources>
