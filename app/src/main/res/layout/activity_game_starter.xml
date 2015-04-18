@@ -72,10 +72,9 @@
             android:id="@+id/tvTimer" />
 
         <CheckBox
-            android:text="@string/TitleHelp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="MuestraTextCheckbox"/>
+            android:onClick="onClickCheckBox"/>
 
     </LinearLayout>
 

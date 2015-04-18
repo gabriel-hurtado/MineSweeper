@@ -25,6 +25,9 @@
     <string name="MediumMinesRadioButton">25 %</string>
     <string name="HighMinesRadioButton">35 %</string>
 
+    <!-- CheckBox -->
+
+
     <!-- TextView -->
     <string name="UserName">User Name : </string>
     <string name="SizeGrill">Size Grill : </string>
