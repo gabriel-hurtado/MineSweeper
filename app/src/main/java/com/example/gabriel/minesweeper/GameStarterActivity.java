@@ -11,8 +11,8 @@ import android.widget.RadioGroup;
 
 
 public class GameStarterActivity extends Activity {
-    private Intent in = new Intent(this, GameActivity.class);
-    private Bundle starterInfos = new Bundle();
+     Intent in = new Intent(this, GameActivity.class);
+     Bundle starterInfos = new Bundle();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
