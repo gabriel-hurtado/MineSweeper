@@ -25,4 +25,9 @@ public class MainMenu extends Activity {
         Intent in = new Intent(this, GameStarterActivity.class);
         startActivity(in);
     }
+
+    public void quitApp (View clickedButton){
+        finish();
+        System.exit(0);
+    }
 }

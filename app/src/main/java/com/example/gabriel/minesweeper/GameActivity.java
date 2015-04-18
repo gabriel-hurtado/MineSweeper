@@ -3,7 +3,7 @@ package com.example.gabriel.minesweeper;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.TextView;
+//import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -24,25 +24,39 @@ public class GameActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-        TextView t=(TextView)findViewById(R.id.myTextView);
+        // test TextView t=(TextView)findViewById(R.id.myTextView);
         in = getIntent();
         infos = in.getExtras();
         timer = infos.getBoolean("timer");
         percentage = infos.getDouble("percentage");
         size = Integer.parseInt(infos.getString("size"));
         UserName = infos.getString("UserName");
-        gameGeneration= new grid(size);
-        gameGeneration.putMines(generateMines(percentage,size));
-        gameGeneration.addNumberOfMinesNear();
+        gameGeneration= new grid(size, percentage);
+
+        /*test
+        StringBuilder builder = new StringBuilder();
+        for (int i=0; i<size; i++){
+            for(int j=0; j<size;j++){
+                builder.append(String.valueOf(gameGeneration.getArray()[i][j])+" ");
+            }
+            builder.append("\n");
+        }
+        t.setText(builder.toString());
+*/
 
     }
 
-    public class grid {
-      public int[][] gridArray;
 
-        public grid(int size){
+
+    public class grid {
+      private int[][] gridArray;
+
+        public grid(int size, double percentage){
            this.gridArray= new int[size][size];
+            this.putMines(generateMines(percentage,size));
+            this.addNumberOfMinesNear();
         }
+
 
         private void putMines(int[] minesArray){
           for(int mineSize: minesArray){
@@ -74,6 +88,10 @@ public class GameActivity extends Activity {
             }
 
             return value;
+        }
+
+        public int[][] getArray(){
+            return this.gridArray;
         }
 
 
