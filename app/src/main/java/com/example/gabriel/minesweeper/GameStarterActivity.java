@@ -12,13 +12,16 @@ import android.widget.RadioGroup;
 
 public class GameStarterActivity extends Activity {
      Bundle starterInfos = new Bundle();
+    public Double percentage;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        percentage = 0.25;
         setContentView(R.layout.activity_game_starter);
         RadioGroup radioGroup = (RadioGroup)findViewById(R.id.rgPercentMines);
         radioGroup.setOnCheckedChangeListener(new RadioGroupInfo());
+
     }
 
      /*In the class with the mines percentages handler
@@ -34,7 +37,6 @@ public class GameStarterActivity extends Activity {
 
             RadioButton newChecked = (RadioButton)findViewById(checkedId);
             String dataNewChecked = newChecked.getText().toString();
-            Double percentage = 0.0;
             switch (dataNewChecked){
                 case "15 %":
                     percentage = 0.15;
@@ -46,7 +48,6 @@ public class GameStarterActivity extends Activity {
                     percentage = 0.35;
                     break;
             }
-            starterInfos.putDouble("percentage", percentage);
         }
     }
 
@@ -55,7 +56,6 @@ public class GameStarterActivity extends Activity {
 
     public void onClickCheckBox(View clickedButton) {
         CheckBox buttonCheckbox = (CheckBox)clickedButton;
-        String status;
         if (buttonCheckbox.isChecked()) {
             starterInfos.putBoolean("timer", true);
         } else {
@@ -75,6 +75,7 @@ public class GameStarterActivity extends Activity {
                 findViewById(R.id.GameStarterEditText2);
         String size = et2.getText().toString();
         starterInfos.putString("size", size);
+        starterInfos.putDouble("percentage", percentage);
         Intent in = new Intent(this, GameActivity.class);
         in.putExtras(starterInfos);
         startActivity(in);
