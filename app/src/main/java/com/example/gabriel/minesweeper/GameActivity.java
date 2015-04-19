@@ -54,7 +54,7 @@ public class GameActivity extends Activity {
         gridView.setAdapter(new ButtonAdapter(this));
 
         if (timer) {
-            cT = new CountDownTimer(12000, 1000) {
+            cT = new CountDownTimer(120000, 1000) {
                 TextView textView = (TextView) findViewById(R.id.GameTextview);
 
                 public void onTick(long millisUntilFinished) {
