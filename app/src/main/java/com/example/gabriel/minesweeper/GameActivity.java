@@ -28,6 +28,7 @@ public class GameActivity extends Activity {
     private String UserName;
     private GridView gridView;
     private grid gameGeneration;
+    private Intent i;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,36 +41,39 @@ public class GameActivity extends Activity {
         percentage = gameLog.getDouble("percentage");
         size = Integer.parseInt(gameLog.getString("size"));
         UserName = gameLog.getString("UserName");
-        gameGeneration= new grid(size, percentage);
-        final Intent i = new Intent(this, ResultGameActivity.class);
+        gameGeneration = new grid(size, percentage);
+        i = new Intent(this, ResultGameActivity.class);
 
         gridView.setNumColumns(size);
         gridView.setAdapter(new ButtonAdapter(this));
 
-        if(timer){
-            CountDownTimer cT =  new CountDownTimer(120000, 1000) {
-                TextView textView = (TextView)findViewById(R.id.GameTextview);
+        if (timer) {
+            CountDownTimer cT = new CountDownTimer(120000, 1000) {
+                TextView textView = (TextView) findViewById(R.id.GameTextview);
 
                 public void onTick(long millisUntilFinished) {
 
-                    String minutes = String.format("%02d", millisUntilFinished/60000);
-                    String seconds = String.format("%02d",millisUntilFinished%60000/1000);
+                    String minutes = String.format("%02d", millisUntilFinished / 60000);
+                    String seconds = String.format("%02d", millisUntilFinished % 60000 / 1000);
 
-                    textView.setText("seconds remaining : " +minutes+":"+ seconds);
+                    textView.setText("seconds remaining : " + minutes + ":" + seconds);
                 }
 
                 public void onFinish() {
-                    //put the time stayed
-                    i.putExtras(gameLog);
-                    startActivity(i);
+                    //put the time left
+                    stopGame();
 
                 }
             };
             cT.start();
         }
+    }
 
 
-
+       public void stopGame(){
+        i.putExtras(gameLog);
+        startActivity(i);
+    }
 
 
         /*
@@ -93,7 +97,7 @@ public class GameActivity extends Activity {
 
 
 
-    }
+
 
     class MyOnClickListener implements View.OnClickListener
     {
@@ -135,6 +139,7 @@ public class GameActivity extends Activity {
                     v.setBackgroundResource(R.drawable.n8);
                     break;
                 case -1:
+
                     v.setBackgroundResource(R.drawable.bomb);
                     break;}
         }
