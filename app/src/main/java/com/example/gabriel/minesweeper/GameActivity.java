@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
@@ -70,6 +69,7 @@ public class GameActivity extends Activity {
         gameLog.putInt("remaining",int remainingMines);
 
         */
+
 
 
 
