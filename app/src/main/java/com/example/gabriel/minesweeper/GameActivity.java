@@ -37,6 +37,7 @@ public class GameActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
         gridView = (GridView) findViewById(R.id.gridview);
         in = getIntent();
         gameLog = in.getExtras();
@@ -55,7 +56,6 @@ public class GameActivity extends Activity {
                 TextView textView = (TextView) findViewById(R.id.GameTextview);
 
                 public void onTick(long millisUntilFinished) {
-
                     minutes = String.format("%02d", millisUntilFinished / 60000);
                     seconds = String.format("%02d", millisUntilFinished % 60000 / 1000);
 
@@ -67,8 +67,7 @@ public class GameActivity extends Activity {
                     Toast.makeText(getApplicationContext(), "No more time ! Game over ...", Toast.LENGTH_SHORT).show();
                     stopGame();
                 }
-            };
-            cT.start();
+            }.start();
 
         }
     }
@@ -86,40 +85,30 @@ public class GameActivity extends Activity {
         startActivity(i);
     }
 
-
-
-
-
-
-
-
-    class MyOnClickListener implements View.OnClickListener
-    {
+    class MyOnClickListener implements View.OnClickListener {
         private final int position;
 
-        public MyOnClickListener(int position)
-        {
+        public MyOnClickListener(int position) {
             this.position = position;
         }
 
-        public void onClick(View v)
-        {
+        public void onClick(View v) {
             switch (gameGeneration.toSimpleArray()[this.position]){
                 case 0:
                     v.setBackgroundResource(R.drawable.empty);
-                    remainingBox-=1;
+                    remainingBox -= 1;
                     break;
                 case 1:
                     v.setBackgroundResource(R.drawable.n1);
-                    remainingBox-=1;
+                    remainingBox -= 1;
                     break;
                 case 2:
                     v.setBackgroundResource(R.drawable.n2);
-                    remainingBox-=1;
+                    remainingBox -= 1;
                     break;
                 case 3:
                     v.setBackgroundResource(R.drawable.n3);
-                    remainingBox-=1;
+                    remainingBox -= 1;
                     break;
                 case 4:
                     v.setBackgroundResource(R.drawable.n4);
@@ -127,15 +116,15 @@ public class GameActivity extends Activity {
                     break;
                 case 5:
                     v.setBackgroundResource(R.drawable.n5);
-                    remainingBox-=1;
+                    remainingBox -= 1;
                     break;
                 case 6:
                     v.setBackgroundResource(R.drawable.n6);
-                    remainingBox-=1;
+                    remainingBox -= 1;
                     break;
                 case 7:
                     v.setBackgroundResource(R.drawable.n7);
-                    remainingBox-=1;
+                    remainingBox -= 1;
                     break;
                 case 8:
                     v.setBackgroundResource(R.drawable.n8);
@@ -149,7 +138,7 @@ public class GameActivity extends Activity {
                     stopGame();
                     break;}
 
-            if(remainingBox==0){
+            if(remainingBox == 0){
                 victory=true;
                 Toast.makeText(getApplicationContext(), "Look like we've got a winner !", Toast.LENGTH_SHORT).show();
                 stopGame();
@@ -162,10 +151,10 @@ public class GameActivity extends Activity {
 
 
     public class grid {
-      private int[][] gridArray;
+        private int[][] gridArray;
 
         public grid(int size, double percentage){
-           this.gridArray= new int[size][size];
+           this.gridArray = new int[size][size];
             this.putMines(generateMines(percentage,size));
             this.addNumberOfMinesNear();
         }
@@ -175,12 +164,12 @@ public class GameActivity extends Activity {
         }
 
         public int[] toSimpleArray(){
-            int size=this.getSize();
-            int[] simpleArray= new int[size*size];
-            int counter=0;
-            for (int i=0;i<size;i++){
-                for (int j=0;j<size;j++){
-                  simpleArray[counter]=this.gridArray[i][j];
+            int size = this.getSize();
+            int[] simpleArray = new int[size*size];
+            int counter = 0;
+            for (int i = 0; i < size; i++){
+                for (int j = 0; j < size; j++){
+                  simpleArray[counter] = this.gridArray[i][j];
                   counter++;
                 }
             }
@@ -189,17 +178,17 @@ public class GameActivity extends Activity {
 
         private void putMines(int[] minesArray){
           for(int minePosition: minesArray){
-           int line=getLine(minePosition,size);
+           int line = getLine(minePosition,size);
            int column = getColumn(minePosition,size);
-           this.gridArray[line][column]=-1;
+           this.gridArray[line][column] = -1;
           }
         }
 
         private void addNumberOfMinesNear(){
-         for(int i=0;i<size;i++){
-            for(int j=0;j<size;j++) {
-                if (this.gridArray[i][j]!=-1){
-                    gridArray[i][j]=this.minesNear(i, j);
+        for (int i = 0; i < size; i++){
+            for (int j = 0; j < size; j++){
+                if (this.gridArray[i][j]!= -1){
+                    gridArray[i][j] = this.minesNear(i, j);
                 }
             }
          }
@@ -208,35 +197,28 @@ public class GameActivity extends Activity {
         private int minesNear(int i,int j){
              int value=0;
             /*counter the number of mines near and return an int*/
-            for(int bouclei=0;bouclei<size;bouclei++){
-                for(int bouclej=0;bouclej<size;bouclej++) {
-                    if (this.gridArray[bouclei][bouclej]==-1){
-                        if (((bouclei>=i-1)&&(bouclei<=i+1) && ((bouclej>=j-1)&&(bouclej<=j+1)))){
-                            value+=1;
+            for(int bouclei = 0; bouclei < size; bouclei++){
+                for(int bouclej = 0; bouclej < size; bouclej++) {
+                    if (this.gridArray[bouclei][bouclej] == -1){
+                        if (((bouclei >= i-1)&&(bouclei <= i+1) && ((bouclej >= j-1)&&(bouclej <= j+1)))){
+                            value += 1;
                         }
                     }
                 }
             }
-
             return value;
         }
 
         public int[][] getArray(){
             return this.gridArray;
         }
-
-
-
     }
 
     public int[] generateMines(double percentage, int size){
         List<Integer> list = new ArrayList<>();
         int[] listArray;
         int numberOfMines = (int) ((size*size)*percentage);
-        for(int i = 0; i < numberOfMines;)
-        {
-
-
+        for(int i = 0; i < numberOfMines;) {
             int rand = ((int)(Math.random() * ((size*size)-1)));
             if(!list.contains(rand))
             {
@@ -244,16 +226,14 @@ public class GameActivity extends Activity {
                 i++;
             }
         }
-        listArray= convertIntegers(list);
+        listArray = convertIntegers(list);
         return listArray;
     }
 
-    public static int[] convertIntegers(List<Integer> integers)
-    {
+    public static int[] convertIntegers(List<Integer> integers) {
         int[] ret = new int[integers.size()];
         Iterator<Integer> iterator = integers.iterator();
-        for (int i = 0; i < ret.length; i++)
-        {
+        for (int i = 0; i < ret.length; i++) {
             ret[i] = iterator.next();
         }
         return ret;
@@ -263,49 +243,44 @@ public class GameActivity extends Activity {
        return position/size;
    }
 
-   public int getColumn (int position, int size){
+   public int getColumn (int position, int size) {
        return position%size;
    }
 
+   public class ButtonAdapter extends BaseAdapter {
+       private Context mContext;
+       public ButtonAdapter(Context c) {
+           mContext = c;
+       }
 
+       public int getCount() {
+           return size*size;
+       }
 
+       public Object getItem(int position) {
+           return null;
+       }
 
+       public long getItemId(int position) {
+           return position;
+       }
 
+       public View getView(int position, View convertView, ViewGroup parent) {
+           Button btn;
+           if (convertView == null) {
+           btn = new Button(mContext);
+           btn.setPadding(2, 2, 2, 2);
+           }
 
-    public class ButtonAdapter extends BaseAdapter {
-        private Context mContext;
+           else {
+               btn = (Button) convertView;
+           }
 
+           btn.setId(position);
+           btn.setBackgroundResource(R.drawable.undiscovered);
+           btn.setOnClickListener(new MyOnClickListener(position));
+           return btn;
+       }
+   }
 
-        public ButtonAdapter(Context c) {
-            mContext = c;
-        }
-
-        public int getCount() {
-            return size*size;
-        }
-
-        public Object getItem(int position) {
-            return null;
-        }
-
-        public long getItemId(int position) {
-            return position;
-        }
-
-        public View getView(int position, View convertView, ViewGroup parent) {
-            Button btn;
-            if (convertView == null) {
-                btn = new Button(mContext);
-                btn.setPadding(2, 2, 2, 2);
-            }
-            else {
-                btn = (Button) convertView;
-            }
-
-            btn.setId(position);
-            btn.setBackgroundResource(R.drawable.undiscovered);
-            btn.setOnClickListener(new MyOnClickListener(position));
-            return btn;
-        }
-    }
-    }
+}

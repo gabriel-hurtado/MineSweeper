@@ -16,6 +16,7 @@ public class ResultGameActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result_game);
+
         in = getIntent();
         gameLog = in.getExtras();
         boolean timer = gameLog.getBoolean("timer");

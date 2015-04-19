@@ -14,12 +14,10 @@ public class MainMenu extends Activity {
         setContentView(R.layout.activity_main_menu);
     }
 
-
     public void showHelp (View clickedButton) {
         Intent in = new Intent(this, HelpActivity.class);
         startActivity(in);
     }
-
 
     public void showGameStarter (View clickedButton) {
         Intent in = new Intent(this, GameStarterActivity.class);
@@ -29,4 +27,5 @@ public class MainMenu extends Activity {
     public void quitApp (View clickedButton){
         android.os.Process.killProcess(android.os.Process.myPid());
     }
+
 }

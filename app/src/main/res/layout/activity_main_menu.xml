@@ -11,7 +11,9 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
-        <TextView android:text="@string/TitleMainMenu" android:layout_width="wrap_content"
+        <TextView
+            android:text="@string/TitleMainMenu"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/accent_material_dark"
             android:layout_marginTop="58dp"
@@ -21,7 +23,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/HelpButton"
-            android:id="@+id/btHelp"
             android:layout_marginTop="106dp"
             android:onClick="showHelp"
             android:layout_gravity="center_horizontal" />
@@ -30,7 +31,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/StartButton"
-            android:id="@+id/btStart"
             android:onClick="showGameStarter"
             android:layout_marginTop="10dp"
             android:layout_gravity="center_horizontal" />
@@ -39,7 +39,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/QuitButton"
-            android:id="@+id/btQuit"
             android:layout_marginTop="10dp"
             android:onClick="quitApp"
             android:layout_gravity="center_horizontal" />
