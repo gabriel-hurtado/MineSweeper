@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -51,7 +53,7 @@ public class GameActivity extends Activity {
         gridView.setAdapter(new ButtonAdapter(this));
 
         if (timer) {
-            cT = new CountDownTimer(12000, 1000) {
+            cT = new CountDownTimer(120000, 1000) {
                 TextView textView = (TextView) findViewById(R.id.GameTextview);
 
                 public void onTick(long millisUntilFinished) {
@@ -59,11 +61,12 @@ public class GameActivity extends Activity {
                     minutes = String.format("%02d", millisUntilFinished / 60000);
                     seconds = String.format("%02d", millisUntilFinished % 60000 / 1000);
 
-                    textView.setText("seconds remaining : " + minutes + ":" + seconds);
+                    textView.setText("Time remaining : " + minutes + ":" + seconds);
                 }
 
                 public void onFinish() {
                     victory=false;
+                    seconds="0";
                     Toast.makeText(getApplicationContext(), "No more time ! Game over ...", Toast.LENGTH_SHORT).show();
                     stopGame();
                 }
@@ -83,7 +86,14 @@ public class GameActivity extends Activity {
         gameLog.putBoolean("victory",victory);
         gameLog.putInt("remainingBox",remainingBox);
         i.putExtras(gameLog);
-        startActivity(i);
+           // Execute some code after 2 seconds have passed
+           Handler handler = new Handler();
+           handler.postDelayed(new Runnable() {
+               public void run() {
+                   startActivity(i);
+               }
+           }, 2000);
+
     }
 
 
@@ -308,4 +318,5 @@ public class GameActivity extends Activity {
             return btn;
         }
     }
+
     }
