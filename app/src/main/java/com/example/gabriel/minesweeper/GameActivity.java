@@ -49,17 +49,8 @@ public class GameActivity extends Activity {
             //showTimer();
         }
 
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            public void onItemClick(AdapterView<?> parent, View v,
-                                    int position, long id)
-            {
-                //reactionar al click
-            }
-        });
 
 
-        //showGame(gameGeneration);
 
 
         /*
@@ -82,17 +73,51 @@ public class GameActivity extends Activity {
 
 
 
-        /*test
-        StringBuilder builder = new StringBuilder();
-        for (int i=0; i<size; i++){
-            for(int j=0; j<size;j++){
-                builder.append(String.valueOf(gameGeneration.getArray()[i][j])+" ");
-            }
-            builder.append("\n");
-        }
-        t.setText(builder.toString());
-*/
+    }
 
+    class MyOnClickListener implements View.OnClickListener
+    {
+        private final int position;
+
+        public MyOnClickListener(int position)
+        {
+            this.position = position;
+        }
+
+        public void onClick(View v)
+        {
+            switch (gameGeneration.toSimpleArray()[this.position]){
+                case 0:
+                    v.setBackgroundResource(R.drawable.empty);
+                    break;
+                case 1:
+                    v.setBackgroundResource(R.drawable.n1);
+                    break;
+                case 2:
+                    v.setBackgroundResource(R.drawable.n2);
+                    break;
+                case 3:
+                    v.setBackgroundResource(R.drawable.n3);
+                    break;
+                case 4:
+                    v.setBackgroundResource(R.drawable.n4);
+                    break;
+                case 5:
+                    v.setBackgroundResource(R.drawable.n5);
+                    break;
+                case 6:
+                    v.setBackgroundResource(R.drawable.n6);
+                    break;
+                case 7:
+                    v.setBackgroundResource(R.drawable.n7);
+                    break;
+                case 8:
+                    v.setBackgroundResource(R.drawable.n8);
+                    break;
+                case -1:
+                    v.setBackgroundResource(R.drawable.bomb);
+                    break;}
+        }
     }
 
 
@@ -234,7 +259,6 @@ public class GameActivity extends Activity {
         public View getView(int position, View convertView, ViewGroup parent) {
             Button btn;
             if (convertView == null) {
-                // if it's not recycled, initialize some attributes
                 btn = new Button(mContext);
                 btn.setPadding(2, 2, 2, 2);
             }
@@ -244,48 +268,8 @@ public class GameActivity extends Activity {
 
             btn.setId(position);
             btn.setBackgroundResource(R.drawable.undiscovered);
+            btn.setOnClickListener(new MyOnClickListener(position));
             return btn;
         }
     }
-        /* references to our images
-        private Integer[] drawable = {
-                R.drawable.undiscovered,
-                R.drawable.n1,
-                R.drawable.n2,
-                R.drawable.n3,
-                R.drawable.n4,
-                R.drawable.n5,
-                R.drawable.n6,
-                R.drawable.n7,
-                R.drawable.n8,
-                R.drawable.bomb,
-        };*/
-
-
-    /*switch dans le onClick
-
-                switch (gameGeneration.toSimpleArray()[position]){
-                case 0:
-                 btn.setBackgroundResource(R.drawable.empty);
-                case 1:
-                 btn.setBackgroundResource(R.drawable.n1);
-                case 2:
-                    btn.setBackgroundResource(R.drawable.n2);
-                case 3:
-                    btn.setBackgroundResource(R.drawable.n3);
-                case 4:
-                    btn.setBackgroundResource(R.drawable.n4);
-                case 5:
-                    btn.setBackgroundResource(R.drawable.n5);
-                case 6:
-                    btn.setBackgroundResource(R.drawable.n6);
-                case 7:
-                    btn.setBackgroundResource(R.drawable.n7);
-                case 8:
-                    btn.setBackgroundResource(R.drawable.n8);
-                case -1:
-                    btn.setBackgroundResource(R.drawable.bomb);}
-            btn.setId(position);
-
-     */
     }
