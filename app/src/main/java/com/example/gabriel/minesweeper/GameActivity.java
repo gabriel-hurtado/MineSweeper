@@ -11,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -29,6 +30,7 @@ public class GameActivity extends Activity {
     private GridView gridView;
     private grid gameGeneration;
     private Intent i;
+    private Boolean victory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,11 +58,12 @@ public class GameActivity extends Activity {
                     String minutes = String.format("%02d", millisUntilFinished / 60000);
                     String seconds = String.format("%02d", millisUntilFinished % 60000 / 1000);
 
-                    textView.setText("seconds remaining : " + minutes + ":" + seconds);
+                    textView.setText("Time remaining : " + minutes + ":" + seconds);
                 }
 
                 public void onFinish() {
-                    //put the time left
+                    //put the time left in the bundle
+                    victory=false;
                     stopGame();
 
                 }
@@ -71,6 +74,7 @@ public class GameActivity extends Activity {
 
 
        public void stopGame(){
+        gameLog.putBoolean("victory",victory);
         i.putExtras(gameLog);
         startActivity(i);
     }
@@ -139,8 +143,10 @@ public class GameActivity extends Activity {
                     v.setBackgroundResource(R.drawable.n8);
                     break;
                 case -1:
-
+                    Toast.makeText(getApplicationContext(), "Booom ! Game over ...", Toast.LENGTH_SHORT).show();
+                    victory=false;
                     v.setBackgroundResource(R.drawable.bomb);
+                    stopGame();
                     break;}
         }
     }
