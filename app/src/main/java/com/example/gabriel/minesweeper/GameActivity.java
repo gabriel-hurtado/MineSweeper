@@ -26,7 +26,6 @@ public class GameActivity extends Activity {
     private Boolean timer;
     private double percentage;
     private int size;
-    private String UserName;
     private GridView gridView;
     private grid gameGeneration;
     private Intent i;
@@ -43,7 +42,6 @@ public class GameActivity extends Activity {
         timer = gameLog.getBoolean("timer");
         percentage = gameLog.getDouble("percentage");
         size = Integer.parseInt(gameLog.getString("size"));
-        UserName = gameLog.getString("UserName");
         gameGeneration = new grid(size, percentage);
         remainingBox=(int) ((size * size) - (size * size * percentage)+1.0);
         i = new Intent(this, ResultGameActivity.class);
@@ -77,28 +75,12 @@ public class GameActivity extends Activity {
 
        public void stopGame(){
         gameLog.putBoolean("victory",victory);
+        gameLog.putInt("remainingBox",remainingBox);
         i.putExtras(gameLog);
         startActivity(i);
     }
 
 
-        /*
-        Use the Onclick to know is the game is ended, and at the end send an intent with the log in Bundle.
-        (We must have a variable to know how much boxes are undiscovered)
-
-        to check if lost:
-        if (timer){
-        verifyTimer();
-        }
-        boxClickedIsMine();
-
-        at the end
-        if(timer){
-        gameLog.putInt("time",int time);
-        }
-        gameLog.putInt("remaining",int remainingMines);
-
-        */
 
 
 
