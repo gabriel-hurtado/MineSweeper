@@ -12,12 +12,10 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-//import android.widget.TextView;
 
 
 public class GameActivity extends Activity {
@@ -53,7 +51,7 @@ public class GameActivity extends Activity {
         gridView.setAdapter(new ButtonAdapter(this));
 
         if (timer) {
-            cT = new CountDownTimer(120000, 1000) {
+            cT = new CountDownTimer(12000, 1000) {
                 TextView textView = (TextView) findViewById(R.id.GameTextview);
 
                 public void onTick(long millisUntilFinished) {
@@ -65,6 +63,8 @@ public class GameActivity extends Activity {
                 }
 
                 public void onFinish() {
+                    victory=false;
+                    Toast.makeText(getApplicationContext(), "No more time ! Game over ...", Toast.LENGTH_SHORT).show();
                     stopGame();
                 }
             };
@@ -145,6 +145,7 @@ public class GameActivity extends Activity {
                     Toast.makeText(getApplicationContext(), "Booom ! Game over ...", Toast.LENGTH_SHORT).show();
                     victory=false;
                     v.setBackgroundResource(R.drawable.bomb);
+                    //tell where the bomb was
                     stopGame();
                     break;}
 
@@ -235,7 +236,7 @@ public class GameActivity extends Activity {
         for(int i = 0; i < numberOfMines;)
         {
 
-            //Number between 0 and max
+
             int rand = ((int)(Math.random() * ((size*size)-1)));
             if(!list.contains(rand))
             {
@@ -270,7 +271,7 @@ public class GameActivity extends Activity {
 
 
 
-    //class of the adaptor
+
     public class ButtonAdapter extends BaseAdapter {
         private Context mContext;
 
@@ -291,7 +292,6 @@ public class GameActivity extends Activity {
             return position;
         }
 
-        // create a new ImageView for each item referenced by the Adapter
         public View getView(int position, View convertView, ViewGroup parent) {
             Button btn;
             if (convertView == null) {
