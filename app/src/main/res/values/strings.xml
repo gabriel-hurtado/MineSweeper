@@ -34,6 +34,7 @@
     <string name="Timer">Timer : </string>
     <string name="PercentMines">% Mines : </string>
     <string name="title_activity_game">GameActivity</string>
+    <string name="title_activity_result_game">ResultGameActivity</string>
 
 
 </resources>

@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -33,7 +35,6 @@ public class GameActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         gridView = (GridView) findViewById(R.id.gridview);
-        // test TextView t=(TextView)findViewById(R.id.myTextView);
         in = getIntent();
         gameLog = in.getExtras();
         timer = gameLog.getBoolean("timer");
@@ -41,12 +42,31 @@ public class GameActivity extends Activity {
         size = Integer.parseInt(gameLog.getString("size"));
         UserName = gameLog.getString("UserName");
         gameGeneration= new grid(size, percentage);
+        final Intent i = new Intent(this, ResultGameActivity.class);
 
         gridView.setNumColumns(size);
         gridView.setAdapter(new ButtonAdapter(this));
 
         if(timer){
-            //showTimer();
+            CountDownTimer cT =  new CountDownTimer(120000, 1000) {
+                TextView textView = (TextView)findViewById(R.id.GameTextview);
+
+                public void onTick(long millisUntilFinished) {
+
+                    String minutes = String.format("%02d", millisUntilFinished/60000);
+                    String seconds = String.format("%02d",millisUntilFinished%60000/1000);
+
+                    textView.setText("seconds remaining : " +minutes+":"+ seconds);
+                }
+
+                public void onFinish() {
+                    //put the time stayed
+                    i.putExtras(gameLog);
+                    startActivity(i);
+
+                }
+            };
+            cT.start();
         }
 
 
