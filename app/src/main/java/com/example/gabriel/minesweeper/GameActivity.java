@@ -31,6 +31,7 @@ public class GameActivity extends Activity {
     private grid gameGeneration;
     private Intent i;
     private Boolean victory;
+    private int remainingBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,7 @@ public class GameActivity extends Activity {
         size = Integer.parseInt(gameLog.getString("size"));
         UserName = gameLog.getString("UserName");
         gameGeneration = new grid(size, percentage);
+        remainingBox=(int) ((size * size) - (size * size * percentage)+1.0);
         i = new Intent(this, ResultGameActivity.class);
 
         gridView.setNumColumns(size);
@@ -117,30 +119,39 @@ public class GameActivity extends Activity {
             switch (gameGeneration.toSimpleArray()[this.position]){
                 case 0:
                     v.setBackgroundResource(R.drawable.empty);
+                    remainingBox-=1;
                     break;
                 case 1:
                     v.setBackgroundResource(R.drawable.n1);
+                    remainingBox-=1;
                     break;
                 case 2:
                     v.setBackgroundResource(R.drawable.n2);
+                    remainingBox-=1;
                     break;
                 case 3:
                     v.setBackgroundResource(R.drawable.n3);
+                    remainingBox-=1;
                     break;
                 case 4:
                     v.setBackgroundResource(R.drawable.n4);
+                    remainingBox-=1;
                     break;
                 case 5:
                     v.setBackgroundResource(R.drawable.n5);
+                    remainingBox-=1;
                     break;
                 case 6:
                     v.setBackgroundResource(R.drawable.n6);
+                    remainingBox-=1;
                     break;
                 case 7:
                     v.setBackgroundResource(R.drawable.n7);
+                    remainingBox-=1;
                     break;
                 case 8:
                     v.setBackgroundResource(R.drawable.n8);
+                    remainingBox-=1;
                     break;
                 case -1:
                     Toast.makeText(getApplicationContext(), "Booom ! Game over ...", Toast.LENGTH_SHORT).show();
@@ -148,6 +159,12 @@ public class GameActivity extends Activity {
                     v.setBackgroundResource(R.drawable.bomb);
                     stopGame();
                     break;}
+
+            if(remainingBox==0){
+                victory=true;
+                Toast.makeText(getApplicationContext(), "Look like we've got a winner !", Toast.LENGTH_SHORT).show();
+                stopGame();
+            }
         }
     }
 
