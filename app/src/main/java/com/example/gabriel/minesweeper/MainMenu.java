@@ -27,7 +27,6 @@ public class MainMenu extends Activity {
     }
 
     public void quitApp (View clickedButton){
-        finish();
-        System.exit(0);
+        android.os.Process.killProcess(android.os.Process.myPid());
     }
 }

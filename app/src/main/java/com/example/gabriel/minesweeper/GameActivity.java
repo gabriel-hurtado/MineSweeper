@@ -12,7 +12,7 @@ import java.util.List;
 
 public class GameActivity extends Activity {
     private Intent in;
-    private Bundle infos;
+    private Bundle gameLog;
     private Boolean timer;
     private double percentage;
     private int size;
@@ -26,12 +26,39 @@ public class GameActivity extends Activity {
         setContentView(R.layout.activity_game);
         // test TextView t=(TextView)findViewById(R.id.myTextView);
         in = getIntent();
-        infos = in.getExtras();
-        timer = infos.getBoolean("timer");
-        percentage = infos.getDouble("percentage");
-        size = Integer.parseInt(infos.getString("size"));
-        UserName = infos.getString("UserName");
+        gameLog = in.getExtras();
+        timer = gameLog.getBoolean("timer");
+        percentage = gameLog.getDouble("percentage");
+        size = Integer.parseInt(gameLog.getString("size"));
+        UserName = gameLog.getString("UserName");
         gameGeneration= new grid(size, percentage);
+
+        if(timer){
+            //showTimer();
+        }
+
+        //showGame(gameGeneration);
+
+
+        /*
+        Use the Onclick to know is the game is ended, and at the end send an intent with the log in Bundle.
+        (We must have a variable to know how much boxes are undiscovered)
+
+        to check if lost:
+        if (timer){
+        verifyTimer();
+        }
+        boxClickedIsMine();
+
+        at the end
+        if(timer){
+        gameLog.putInt("time",int time);
+        }
+        gameLog.putInt("remaining",int remainingMines);
+
+        */
+
+
 
         /*test
         StringBuilder builder = new StringBuilder();
@@ -59,8 +86,10 @@ public class GameActivity extends Activity {
 
 
         private void putMines(int[] minesArray){
-          for(int mineSize: minesArray){
-           this.gridArray[mineSize/size][mineSize%size]=-1;
+          for(int minePosition: minesArray){
+           int line=getLine(minePosition,size);
+           int column = getColumn(minePosition,size);
+           this.gridArray[line][column]=-1;
           }
         }
 
@@ -128,6 +157,13 @@ public class GameActivity extends Activity {
         return ret;
     }
 
+   public int getLine (int position,int size){
+       return position/size;
+   }
+
+   public int getColumn (int position, int size){
+       return position%size;
+   }
 
 
 }
