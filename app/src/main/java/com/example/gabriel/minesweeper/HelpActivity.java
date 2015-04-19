@@ -19,5 +19,4 @@ public class HelpActivity extends Activity {
         startActivity(in);
     }
 
-
 }

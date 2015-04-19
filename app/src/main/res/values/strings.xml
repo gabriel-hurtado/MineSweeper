@@ -12,6 +12,8 @@
     <string name="TitleMainMenu">Minesweeper</string>
     <string name="TitleHelp">Help</string>
     <string name="TitleGameStarter">Game Starter</string>
+    <string name="TitleGame">Game</string>
+    <string name="TitleResultGame">Result Gamer</string>
 
     <!-- Buttons -->
     <string name="ReturnMainMenuButton">Return Main Menu</string>
@@ -25,9 +27,6 @@
     <string name="MediumMinesRadioButton">25 %</string>
     <string name="HighMinesRadioButton">35 %</string>
 
-    <!-- CheckBox -->
-
-
     <!-- TextView -->
     <string name="UserName">User Name : </string>
     <string name="SizeGrill">Size Grill : </string>
@@ -35,6 +34,5 @@
     <string name="PercentMines">% Mines : </string>
     <string name="title_activity_game">GameActivity</string>
     <string name="title_activity_result_game">ResultGameActivity</string>
-
 
 </resources>
