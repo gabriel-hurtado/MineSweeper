@@ -32,6 +32,9 @@ public class GameActivity extends Activity {
     private Intent i;
     private Boolean victory;
     private int remainingBox;
+    private CountDownTimer cT;
+    String minutes;
+    String seconds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,30 +55,33 @@ public class GameActivity extends Activity {
         gridView.setAdapter(new ButtonAdapter(this));
 
         if (timer) {
-            CountDownTimer cT = new CountDownTimer(120000, 1000) {
+            cT = new CountDownTimer(120000, 1000) {
                 TextView textView = (TextView) findViewById(R.id.GameTextview);
 
                 public void onTick(long millisUntilFinished) {
 
-                    String minutes = String.format("%02d", millisUntilFinished / 60000);
-                    String seconds = String.format("%02d", millisUntilFinished % 60000 / 1000);
+                    minutes = String.format("%02d", millisUntilFinished / 60000);
+                    seconds = String.format("%02d", millisUntilFinished % 60000 / 1000);
 
-                    textView.setText("Time remaining : " + minutes + ":" + seconds);
+                    textView.setText("seconds remaining : " + minutes + ":" + seconds);
                 }
 
                 public void onFinish() {
-                    //put the time left in the bundle
-                    victory=false;
                     stopGame();
-
                 }
             };
             cT.start();
+
         }
     }
 
 
        public void stopGame(){
+        if(timer){
+            gameLog.putInt("minutes",Integer.parseInt(minutes));
+            gameLog.putInt("seconds",Integer.parseInt(seconds));
+        }
+
         gameLog.putBoolean("victory",victory);
         i.putExtras(gameLog);
         startActivity(i);
