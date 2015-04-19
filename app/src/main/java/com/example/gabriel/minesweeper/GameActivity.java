@@ -26,7 +26,7 @@ public class GameActivity extends Activity {
     private int size;
     private String UserName;
     private GridView gridView;
-
+    private grid gameGeneration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +40,7 @@ public class GameActivity extends Activity {
         percentage = gameLog.getDouble("percentage");
         size = Integer.parseInt(gameLog.getString("size"));
         UserName = gameLog.getString("UserName");
+        gameGeneration= new grid(size, percentage);
 
         gridView.setNumColumns(size);
         gridView.setAdapter(new ButtonAdapter(this));
@@ -211,7 +212,6 @@ public class GameActivity extends Activity {
     //class of the adaptor
     public class ButtonAdapter extends BaseAdapter {
         private Context mContext;
-        private grid gameGeneration= new grid(size, percentage);
 
 
         public ButtonAdapter(Context c) {
@@ -219,7 +219,7 @@ public class GameActivity extends Activity {
         }
 
         public int getCount() {
-            return gameGeneration.getSize()*gameGeneration.getSize();
+            return size*size;
         }
 
         public Object getItem(int position) {
@@ -242,7 +242,29 @@ public class GameActivity extends Activity {
                 btn = (Button) convertView;
             }
 
-            switch (gameGeneration.toSimpleArray()[position]){
+            btn.setId(position);
+            btn.setBackgroundResource(R.drawable.undiscovered);
+            return btn;
+        }
+    }
+        /* references to our images
+        private Integer[] drawable = {
+                R.drawable.undiscovered,
+                R.drawable.n1,
+                R.drawable.n2,
+                R.drawable.n3,
+                R.drawable.n4,
+                R.drawable.n5,
+                R.drawable.n6,
+                R.drawable.n7,
+                R.drawable.n8,
+                R.drawable.bomb,
+        };*/
+
+
+    /*switch dans le onClick
+
+                switch (gameGeneration.toSimpleArray()[position]){
                 case 0:
                  btn.setBackgroundResource(R.drawable.empty);
                 case 1:
@@ -264,20 +286,6 @@ public class GameActivity extends Activity {
                 case -1:
                     btn.setBackgroundResource(R.drawable.bomb);}
             btn.setId(position);
-            return btn;
-        }
-    }
-        /* references to our images
-        private Integer[] drawable = {
-                R.drawable.undiscovered,
-                R.drawable.n1,
-                R.drawable.n2,
-                R.drawable.n3,
-                R.drawable.n4,
-                R.drawable.n5,
-                R.drawable.n6,
-                R.drawable.n7,
-                R.drawable.n8,
-                R.drawable.bomb,
-        };*/
+
+     */
     }
