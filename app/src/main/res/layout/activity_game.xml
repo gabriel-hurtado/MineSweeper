@@ -21,13 +21,13 @@
         android:layout_gravity="top|start"/>
 
     <FrameLayout
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true">
 
         <GridView
             android:id="@+id/gridview"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:stretchMode="columnWidth"
             android:layout_gravity="center"/>

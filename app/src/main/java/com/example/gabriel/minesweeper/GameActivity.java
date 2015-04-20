@@ -3,11 +3,9 @@ package com.example.gabriel.minesweeper;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -16,6 +14,7 @@ import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -319,12 +318,14 @@ public class GameActivity extends Activity {
 
            else{
                heightColumn = layoutbase.getHeight();
+               int widthFull = layoutbase.getWidth();
                heightColumn=heightColumn/(size);
                btn.setLayoutParams(new GridView.LayoutParams( heightColumn, heightColumn));
                if(heightColumn>0){
+                   int paddingLeft=(widthFull/2)-((size*heightColumn)/2);
                    gridView.setHorizontalSpacing(heightColumn);
+                   gridView.setPadding(paddingLeft, 0,0, 0);
                }
-
            }
            btn.setOnClickListener(new MyOnClickListener(position));
            return btn;
