@@ -107,7 +107,7 @@ public class GameActivity extends Activity {
 
 
     class MyOnClickListener implements View.OnClickListener {
-        private final int position;
+        private int position;
 
         public MyOnClickListener(int position) {
             this.position = position;
@@ -156,6 +156,7 @@ public class GameActivity extends Activity {
                         v.setBackgroundResource(R.drawable.bomb);
                         finished=true;
                         Toast.makeText(getApplicationContext(), "Booom ! Game over ...", Toast.LENGTH_SHORT).show();
+                        position  = gameLog.getInt("position");
                         victory = false;
                         remainingMine-=1;
                         stopGame(); //tell where is the bomb

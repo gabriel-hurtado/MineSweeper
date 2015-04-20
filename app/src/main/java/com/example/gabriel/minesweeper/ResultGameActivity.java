@@ -32,6 +32,7 @@ public class ResultGameActivity extends ActionBarActivity {
         Double percentage = gameLog.getDouble("percentage");
         int remainingBox = gameLog.getInt("remainingBox");
         int remainingMine = gameLog.getInt("remainingMine");
+        int position = gameLog.getInt("position");
         int totalMines =(int) (size * size * percentage);
 
         boolean defeatByTime = false;
@@ -49,8 +50,11 @@ public class ResultGameActivity extends ActionBarActivity {
         gameLog.putBoolean("defeatByTime",defeatByTime);
         gameLog.putInt("time",time);
         int boxToDiscover = size * size - remainingMine-remainingBox;
+        int numberOfLine = position/size;
+        int numberOfColum = position%size;
 
-        resultOfGame = "User : " + user + "\n" + " Discovered Boxes : " + remainingBox +"\n" + " %  Discovered Mines : " + remainingMine/totalMines + " Total of Mines " + totalMines + "\n" ;
+
+        resultOfGame = "User : " + user + "\n" + " Discovered Boxes : " + remainingBox +"\n" + " /045  Discovered Mines : " + remainingMine/totalMines +"\n" + " Total of Mines " + totalMines + "\n" ;
 
         if(timer && !defeatByTime && victory){
             resultOfGame += " You won " + "\n" + " You have been overrun " + (120-time) + " Seconds !";
@@ -59,10 +63,10 @@ public class ResultGameActivity extends ActionBarActivity {
             resultOfGame += "You have run out of time !!" + "\n" + " We have been " + boxToDiscover +" boxes to discover";
         }
         if(timer && !defeatByTime && !victory){
-            resultOfGame += " You lost !! " + "\n" + " Pump in box " + ""+ "\n" + " We have been " + boxToDiscover +" boxes to discover" + "\n" + " You have been overrun " + (120-time) + " Seconds !";
+            resultOfGame += " You lost !! " + "\n" + " Pump in box " + "( "+ numberOfLine + ", " + numberOfColum + " )"+ "\n" + " We have been " + boxToDiscover +" boxes to discover" + "\n" + " You have been overrun " + (120-time) + " Seconds !";
         }
         if(!victory){
-            resultOfGame +=" You lost !! " + "\n" + " Pump in box " + ""+ "\n" + " We have been " + boxToDiscover +" boxes to discover" ;
+            resultOfGame +=" You lost !! " + "\n" + " Pump in box " + "( "+ numberOfLine + ", " + numberOfColum + " )"+"\n" + " We have been " + boxToDiscover +" boxes to discover" ;
         }
 
     }
