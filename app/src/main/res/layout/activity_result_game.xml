@@ -77,7 +77,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
-            android:id="@+id/EmaiAdress" />
+            android:id="@+id/ResultGameEditText3" />
 
     </LinearLayout>
 
@@ -99,7 +99,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/ReturnGameStarter"
-
             android:layout_gravity="center"
             android:onClick="showGameStarter" />
 

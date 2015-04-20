@@ -32,6 +32,7 @@ public class GameActivity extends Activity {
     private Intent i;
     private Boolean victory;
     private int remainingBox;
+    private int remainingMine;
     private CountDownTimer cT;
     String minutes;
     String seconds;
@@ -51,6 +52,7 @@ public class GameActivity extends Activity {
         size = Integer.parseInt(gameLog.getString("size"));
         gameGeneration = new grid(size, percentage);
         remainingBox=(int) ((size * size) - (size * size * percentage)+1.0);
+        remainingMine=(int) (size * size * percentage);
         i = new Intent(this, ResultGameActivity.class);
 
         gridView.setNumColumns(size);
@@ -155,6 +157,7 @@ public class GameActivity extends Activity {
                         finished=true;
                         Toast.makeText(getApplicationContext(), "Booom ! Game over ...", Toast.LENGTH_SHORT).show();
                         victory = false;
+                        remainingMine-=1;
                         stopGame(); //tell where is the bomb
                         break;
                 }
@@ -296,8 +299,6 @@ public class GameActivity extends Activity {
        public View getView(int position, View convertView, ViewGroup parent) {
            Button btn;
            btn = new Button(mContext);
-
-
 
            btn.setBackgroundResource(R.drawable.undiscovered);
 

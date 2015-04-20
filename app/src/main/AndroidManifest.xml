@@ -30,7 +30,7 @@
         </activity>
         <activity
             android:name=".ResultGameActivity"
-            android:label="@string/title_activity_result_game" >
+            android:label="@string/title_activity_result_game">
         </activity>
     </application>
 
