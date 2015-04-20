@@ -29,11 +29,10 @@
             android:layout_height="wrap_content"
             android:text="@string/Date_Hour"/>
 
-        <EditText
+        <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:inputType="text|datetime"
-            android:id="@+id/ResultGameEditText1" />
+            android:id="@+id/Datetv" />
 
     </LinearLayout>
 
