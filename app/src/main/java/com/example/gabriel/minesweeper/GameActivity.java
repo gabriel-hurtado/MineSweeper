@@ -163,9 +163,9 @@ public class GameActivity extends Activity {
                         v.setBackgroundResource(R.drawable.bomb);
                         finished=true;
                         Toast.makeText(getApplicationContext(), "Booom ! Game over ...", Toast.LENGTH_SHORT).show();
-                        position  = gameLog.getInt("position");
                         victory = false;
                         remainingMine-=1;
+                        gameLog.putInt("position",position);
                         stopGame(); //tell where is the bomb
                         break;
                 }
