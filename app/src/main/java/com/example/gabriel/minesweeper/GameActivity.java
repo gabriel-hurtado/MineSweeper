@@ -295,14 +295,7 @@ public class GameActivity extends Activity {
 
        public View getView(int position, View convertView, ViewGroup parent) {
            Button btn;
-           if (convertView == null) {
            btn = new Button(mContext);
-           btn.setPadding(2, 2, 2, 2);
-           }
-
-           else {
-               btn = (Button) convertView;
-           }
 
 
 
