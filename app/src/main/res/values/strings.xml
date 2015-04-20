@@ -7,6 +7,8 @@
     <!-- TitlesManifest -->
     <string name="title_activity_help">HelpActivity</string>
     <string name="title_activity_game_starter">GameStarterActivity</string>
+    <string name="title_activity_game">GameActivity</string>
+    <string name="title_activity_result_game">ResultGameActivity</string>
 
     <!-- Titles -->
     <string name="TitleMainMenu">Minesweeper</string>
@@ -21,6 +23,8 @@
     <string name="StartButton">Start</string>
     <string name="HelpButton">Help</string>
     <string name="PlayButton">Play !</string>
+    <string name="SendEmail">Send e-mail</string>
+    <string name="ReturnGameStarter">Return Game Starter</string>
 
     <!-- RadioButtons -->
     <string name="FewMinesRadioButton">15 %</string>
@@ -31,8 +35,9 @@
     <string name="UserName">User Name : </string>
     <string name="SizeGrill">Size Grill : </string>
     <string name="Timer">Timer : </string>
+    <string name="Date_Hour">Date and Hour :  </string>
+    <string name="Data">Data of the game :   </string>
     <string name="PercentMines">% Mines : </string>
-    <string name="title_activity_game">GameActivity</string>
-    <string name="title_activity_result_game">ResultGameActivity</string>
+    <string name="Email"> Email Adress </string>
 
 </resources>

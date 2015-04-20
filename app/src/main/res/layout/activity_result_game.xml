@@ -12,10 +12,106 @@
         android:layout_marginTop="58dp"
         android:layout_centerHorizontal="true" />
 
-  <TextView
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/ResultGameTextView1"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/GameStarterLinearLayout1"
+        android:layout_marginTop="106dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Date_Hour"/>
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text|datetime"
+            android:id="@+id/ResultGameEditText1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/GameStarterLinearLayout1"
+        android:layout_alignLeft="@+id/GameStarterLinearLayout1"
+        android:layout_alignStart="@+id/GameStarterLinearLayout1"
+        android:id="@+id/GameStarterLinearLayout2">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Data"/>
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:id="@+id/ResultGameEditText2" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/GameStarterLinearLayout2"
+        android:layout_alignLeft="@+id/GameStarterLinearLayout2"
+        android:layout_alignStart="@+id/GameStarterLinearLayout2"
+        android:id="@+id/GameStarterLinearLayout3">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Email"/>
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:id="@+id/EmaiAdress" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/GameStarterLinearLayout3"
+        android:layout_marginTop="43dp">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/SendEmail"
+            android:layout_gravity="center"
+            android:onClick="showMail" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ReturnGameStarter"
+
+            android:layout_gravity="center"
+            android:onClick="showGameStarter" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/QuitButton"
+            android:layout_gravity="center"
+            android:onClick="quitApp" />
+
+    </LinearLayout>
+
 
 
 </RelativeLayout>
