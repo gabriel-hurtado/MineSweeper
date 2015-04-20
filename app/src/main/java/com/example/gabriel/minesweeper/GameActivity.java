@@ -3,6 +3,7 @@ package com.example.gabriel.minesweeper;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -95,6 +96,8 @@ public class GameActivity extends Activity {
            }, 2000);
 
     }
+
+
 
     class MyOnClickListener implements View.OnClickListener {
         private final int position;
@@ -291,11 +294,27 @@ public class GameActivity extends Activity {
                btn = (Button) convertView;
            }
 
-           btn.setId(position);
+
+
            btn.setBackgroundResource(R.drawable.undiscovered);
+
+           //Scale button using layout params
+           int height = getColumnWidth(mContext, (GridView) ((GameActivity) mContext).findViewById(R.id.gridview));
+
+           btn.setLayoutParams(new GridView.LayoutParams( height, height));
            btn.setOnClickListener(new MyOnClickListener(position));
            return btn;
        }
    }
+
+    private int getColumnWidth(Context context, GridView gridView) {
+        if (android.os.Build.VERSION.SDK_INT >= 16)
+            return gridView.getColumnWidth();
+
+        int cols = gridView.getNumColumns();
+        int width = gridView.getWidth();
+
+        return (width ) / cols;
+    }
 
 }
