@@ -12,7 +12,8 @@
         android:layout_height="30dp"
         android:textColor="@color/accent_material_dark"
         android:layout_gravity="top|end"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:id="@+id/textView" />
 
     <TextView
         android:layout_width="match_parent"
@@ -21,16 +22,20 @@
         android:layout_gravity="top|start"/>
 
     <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:id="@+id/layout"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_below="@+id/textView">
 
         <GridView
             android:id="@+id/gridview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:stretchMode="columnWidth"
-            android:layout_gravity="center"/>
+            android:stretchMode="none"
+            android:layout_gravity="center_horizontal"/>
     </FrameLayout>
 
 </RelativeLayout>

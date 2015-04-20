@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,7 +38,9 @@ public class GameActivity extends Activity {
     String minutes;
     String seconds;
     Boolean finished;
-
+    Boolean isLandscape;
+    FrameLayout layoutbase;
+    int heightColumn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +50,7 @@ public class GameActivity extends Activity {
         in = getIntent();
         gameLog = in.getExtras();
         finished=false;
+        isLandscape=getApplicationContext().getResources().getBoolean(R.bool.is_landscape);
         timer = gameLog.getBoolean("timer");
         percentage = gameLog.getDouble("percentage");
         size = Integer.parseInt(gameLog.getString("size"));
@@ -57,6 +61,10 @@ public class GameActivity extends Activity {
 
         gridView.setNumColumns(size);
         gridView.setAdapter(new ButtonAdapter(this));
+        if(isLandscape){
+            layoutbase = (FrameLayout) findViewById(R.id.layout);
+
+        }
 
         if (timer) {
             cT = new CountDownTimer(120000, 1000) {
@@ -76,8 +84,7 @@ public class GameActivity extends Activity {
                         victory = false;
                         seconds = "0";
                         Toast.makeText(getApplicationContext(), "No more time ! Game over ...", Toast.LENGTH_SHORT).show();
-                        stopGame();
-                    }
+                        stopGame();                      }
                 }
             }.start();
 
@@ -302,10 +309,22 @@ public class GameActivity extends Activity {
 
            btn.setBackgroundResource(R.drawable.undiscovered);
 
-           //Scale button using layout params
-           int height = getColumnWidth(mContext, (GridView) ((GameActivity) mContext).findViewById(R.id.gridview));
+           if(!isLandscape){
 
-           btn.setLayoutParams(new GridView.LayoutParams( height, height));
+           //Scale button using layout params
+           int width = getColumnWidth(mContext, (GridView) ((GameActivity) mContext).findViewById(R.id.gridview));
+
+           btn.setLayoutParams(new GridView.LayoutParams( width, width));}
+
+           else{
+               heightColumn = layoutbase.getHeight();
+               heightColumn=heightColumn/(size);
+               btn.setLayoutParams(new GridView.LayoutParams( heightColumn, heightColumn));
+               if(heightColumn>0){
+                   gridView.setHorizontalSpacing(heightColumn);
+               }
+
+           }
            btn.setOnClickListener(new MyOnClickListener(position));
            return btn;
        }
