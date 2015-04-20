@@ -11,12 +11,19 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
+
 
 public class ResultGameActivity extends ActionBarActivity {
     private Intent in;
     private Bundle gameLog;
     String resultOfGame;
     int time = 0;
+    TextView Date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +41,14 @@ public class ResultGameActivity extends ActionBarActivity {
         int remainingMine = gameLog.getInt("remainingMine");
         int position = gameLog.getInt("position");
         int totalMines =(int) (size * size * percentage);
-
         boolean defeatByTime = false;
+
+        Date today = new Date();
+        Date = (TextView) findViewById(R.id.Datetv);
+        DateFormat localDf = DateFormat.getDateTimeInstance(
+                DateFormat.FULL,
+                DateFormat.FULL, new Locale("EN","en"));
+        Date.setText(localDf.format(today));
 
         if(timer) {
             int minutes= gameLog.getInt("minutes");
@@ -51,7 +64,7 @@ public class ResultGameActivity extends ActionBarActivity {
         gameLog.putInt("time",time);
         int boxToDiscover = size * size - remainingMine-remainingBox;
         int numberOfLine = position/size;
-        int numberOfColum = position%size;
+        int numberOfColumn = position%size;
 
 
         resultOfGame = "User : " + user + "\n" + " Discovered Boxes : " + remainingBox +"\n" + " /045  Discovered Mines : " + remainingMine/totalMines +"\n" + " Total of Mines " + totalMines + "\n" ;
@@ -63,30 +76,32 @@ public class ResultGameActivity extends ActionBarActivity {
             resultOfGame += "You have run out of time !!" + "\n" + " We have been " + boxToDiscover +" boxes to discover";
         }
         if(timer && !defeatByTime && !victory){
-            resultOfGame += " You lost !! " + "\n" + " Pump in box " + "( "+ numberOfLine + ", " + numberOfColum + " )"+ "\n" + " We have been " + boxToDiscover +" boxes to discover" + "\n" + " You have been overrun " + (120-time) + " Seconds !";
+            resultOfGame += " You lost !! " + "\n" + " Pump in box " + "( "+ numberOfLine + ", " + numberOfColumn + " )"+ "\n" + " We have been " + boxToDiscover +" boxes to discover" + "\n" + " You have been overrun " + (120-time) + " Seconds !";
         }
         if(!victory){
-            resultOfGame +=" You lost !! " + "\n" + " Pump in box " + "( "+ numberOfLine + ", " + numberOfColum + " )"+"\n" + " We have been " + boxToDiscover +" boxes to discover" ;
+            resultOfGame +=" You lost !! " + "\n" + " Pump in box " + "( "+ numberOfLine + ", " + numberOfColumn + " )"+"\n" + " We have been " + boxToDiscover +" boxes to discover" ;
         }
-
     }
 
+
     public void showMail (View clickedButton){
+
+
+
         final EditText et1 = (EditText) findViewById(R.id.ResultGameEditText3);
         String recipient = et1.getText().toString();
-        // starterInfos.putString("UserName", user_name);
 
         if (recipient.equals("")) {
             Toast.makeText(ResultGameActivity.this, "You have to put a content inEmail Adress", Toast.LENGTH_LONG).show();
         }
         else {
+            Date = (TextView) findViewById(R.id.Datetv);
+            String time = Date.getText().toString();
 
             Intent testIntent = new Intent(Intent.ACTION_VIEW);
-            Uri data = Uri.parse("mailto:?subject=" + "Game Result" + "&body=" + resultOfGame + "&to=" + recipient);
+            Uri data = Uri.parse("mailto:?subject=" + time + "&body=" + resultOfGame + "&to=" + recipient);
             testIntent.setData(data);
             startActivity(testIntent);
-            //cas victoire : 1)plus de mine 2)
-            //defaite : 1)plus de temp 2) trouver une bombe
         }
     }
 
