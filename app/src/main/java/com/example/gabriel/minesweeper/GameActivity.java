@@ -35,6 +35,7 @@ public class GameActivity extends Activity {
     private CountDownTimer cT;
     String minutes;
     String seconds;
+    Boolean finished;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,7 @@ public class GameActivity extends Activity {
         gridView = (GridView) findViewById(R.id.gridview);
         in = getIntent();
         gameLog = in.getExtras();
+        finished=false;
         timer = gameLog.getBoolean("timer");
         percentage = gameLog.getDouble("percentage");
         size = Integer.parseInt(gameLog.getString("size"));
@@ -67,10 +69,13 @@ public class GameActivity extends Activity {
                 }
 
                 public void onFinish() {
-                    victory=false;
-                    seconds="0";
-                    Toast.makeText(getApplicationContext(), "No more time ! Game over ...", Toast.LENGTH_SHORT).show();
-                    stopGame();
+                    if(!finished) {
+                        finished=true;
+                        victory = false;
+                        seconds = "0";
+                        Toast.makeText(getApplicationContext(), "No more time ! Game over ...", Toast.LENGTH_SHORT).show();
+                        stopGame();
+                    }
                 }
             }.start();
 
@@ -107,55 +112,60 @@ public class GameActivity extends Activity {
         }
 
         public void onClick(View v) {
-            switch (gameGeneration.toSimpleArray()[this.position]){
-                case 0:
-                    v.setBackgroundResource(R.drawable.empty);
-                    remainingBox -= 1;
-                    break;
-                case 1:
-                    v.setBackgroundResource(R.drawable.n1);
-                    remainingBox -= 1;
-                    break;
-                case 2:
-                    v.setBackgroundResource(R.drawable.n2);
-                    remainingBox -= 1;
-                    break;
-                case 3:
-                    v.setBackgroundResource(R.drawable.n3);
-                    remainingBox -= 1;
-                    break;
-                case 4:
-                    v.setBackgroundResource(R.drawable.n4);
-                    remainingBox-=1;
-                    break;
-                case 5:
-                    v.setBackgroundResource(R.drawable.n5);
-                    remainingBox -= 1;
-                    break;
-                case 6:
-                    v.setBackgroundResource(R.drawable.n6);
-                    remainingBox -= 1;
-                    break;
-                case 7:
-                    v.setBackgroundResource(R.drawable.n7);
-                    remainingBox -= 1;
-                    break;
-                case 8:
-                    v.setBackgroundResource(R.drawable.n8);
-                    remainingBox-=1;
-                    break;
-                case -1:
-                    Toast.makeText(getApplicationContext(), "Booom ! Game over ...", Toast.LENGTH_SHORT).show();
-                    victory=false;
-                    v.setBackgroundResource(R.drawable.bomb);
-                    //tell where the bomb was
-                    stopGame();
-                    break;}
+            if (!finished) {
+                switch (gameGeneration.toSimpleArray()[this.position]) {
+                    case 0:
+                        v.setBackgroundResource(R.drawable.empty);
+                        remainingBox -= 1;
+                        break;
+                    case 1:
+                        v.setBackgroundResource(R.drawable.n1);
+                        remainingBox -= 1;
+                        break;
+                    case 2:
+                        v.setBackgroundResource(R.drawable.n2);
+                        remainingBox -= 1;
+                        break;
+                    case 3:
+                        v.setBackgroundResource(R.drawable.n3);
+                        remainingBox -= 1;
+                        break;
+                    case 4:
+                        v.setBackgroundResource(R.drawable.n4);
+                        remainingBox -= 1;
+                        break;
+                    case 5:
+                        v.setBackgroundResource(R.drawable.n5);
+                        remainingBox -= 1;
+                        break;
+                    case 6:
+                        v.setBackgroundResource(R.drawable.n6);
+                        remainingBox -= 1;
+                        break;
+                    case 7:
+                        v.setBackgroundResource(R.drawable.n7);
+                        remainingBox -= 1;
+                        break;
+                    case 8:
+                        v.setBackgroundResource(R.drawable.n8);
+                        remainingBox -= 1;
+                        break;
+                    case -1:
+                        v.setBackgroundResource(R.drawable.bomb);
+                        finished=true;
+                        Toast.makeText(getApplicationContext(), "Booom ! Game over ...", Toast.LENGTH_SHORT).show();
+                        victory = false;
+                        stopGame(); //tell where is the bomb
+                        break;
+                }
 
-            if(remainingBox == 0){
-                victory=true;
-                Toast.makeText(getApplicationContext(), "Look like we've got a winner !", Toast.LENGTH_SHORT).show();
-                stopGame();
+                if (remainingBox == 0) {
+                    finished=true;
+                    victory = true;
+                    Toast.makeText(getApplicationContext(), "Look like we've got a winner !", Toast.LENGTH_SHORT).show();
+                    stopGame();
+                }
+                v.setEnabled(false);
             }
         }
     }
