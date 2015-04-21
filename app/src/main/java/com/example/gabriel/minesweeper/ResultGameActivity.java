@@ -2,24 +2,29 @@ package com.example.gabriel.minesweeper;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 
 public class ResultGameActivity extends ActionBarActivity {
+    private Intent in;
+    private Bundle gameLog;
     String resultOfGame;
     int time = 0;
     TextView Date;
-    private Intent in;
-    private Bundle gameLog;
+    TextView GameResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +41,7 @@ public class ResultGameActivity extends ActionBarActivity {
         int remainingBox = gameLog.getInt("remainingBox");
         int remainingMine = gameLog.getInt("remainingMine");
         int position = gameLog.getInt("position");
+        int totalBoxes = (int) ((size * size) - (size * size * percentage)+1.0);
         int totalMines = (int) (size * size * percentage);
         boolean defeatByTime = false;
 
@@ -43,44 +49,51 @@ public class ResultGameActivity extends ActionBarActivity {
         Date = (TextView) findViewById(R.id.Datetv);
         DateFormat localDf = DateFormat.getDateTimeInstance(
                 DateFormat.FULL,
-                DateFormat.FULL, new Locale("EN", "en"));
+                DateFormat.FULL, new Locale("EN","en"));
         Date.setText(localDf.format(today));
 
-        if (timer) {
-            int minutes = gameLog.getInt("minutes");
+        if(timer) {
+            int minutes= gameLog.getInt("minutes");
             int seconds = gameLog.getInt("seconds");
-            time = minutes * 60 + seconds;
+            time = minutes*60+seconds;
 
 
-            if (time == 0) {
+            if(time == 0){
                 defeatByTime = true;
             }
         }
-        gameLog.putBoolean("defeatByTime", defeatByTime);
-        gameLog.putInt("time", time);
-        int boxToDiscover = size * size - remainingMine - remainingBox;
-        int numberOfLine = position / size;
-        int numberOfColumn = position % size;
+        gameLog.putBoolean("defeatByTime",defeatByTime);
+        gameLog.putInt("time",time);
+        int boxToDiscover = size * size - remainingMine-remainingBox;
+        int numberOfLine = position/size + 1;
+        int numberOfColumn = position%size + 1;
 
 
-        resultOfGame = "User : " + user + "\n" + " Discovered Boxes : " + remainingBox + "\n" + " /045  Discovered Mines : " + remainingMine / totalMines + "\n" + " Total of Mines " + totalMines + "\n";
+        resultOfGame = "User : " + user + "\n" + " Discovered Boxes : " + (totalBoxes-remainingBox) +"\n" + " Percentage Discovered Mines : " + remainingMine/totalMines +"\n" + " Total of Mines " + totalMines + "\n" ;
 
-        if (timer && !defeatByTime && victory) {
-            resultOfGame += " You won " + "\n" + " You have been overrun " + (120 - time) + " Seconds !";
+        if(timer && !defeatByTime && victory){
+            resultOfGame += " You won " + "\n" + " You have been overrun " + (120-time) + " Seconds !";
         }
-        if (defeatByTime) {
-            resultOfGame += "You have run out of time !!" + "\n" + " We have been " + boxToDiscover + " boxes to discover";
+        if(defeatByTime) {
+            resultOfGame += "You have run out of time !!" + "\n" + " We have been " + remainingBox +" boxes to discover";
         }
-        if (timer && !defeatByTime && !victory) {
-            resultOfGame += " You lost !! " + "\n" + " Pump in box " + "( " + numberOfLine + ", " + numberOfColumn + " )" + "\n" + " We have been " + boxToDiscover + " boxes to discover" + "\n" + " You have been overrun " + (120 - time) + " Seconds !";
+        if(timer && !defeatByTime && !victory){
+            resultOfGame += " You lost !! " + "\n" + " Pump in box " + "( "+ numberOfLine + ", " + numberOfColumn + " )"+ "\n" + " We have been " + remainingBox +" boxes to discover" + "\n" + " You have been overrun " + (120-time) + " Seconds !";
         }
-        if (!victory) {
-            resultOfGame += " You lost !! " + "\n" + " Pump in box " + "( " + numberOfLine + ", " + numberOfColumn + " )" + "\n" + " We have been " + boxToDiscover + " boxes to discover";
+        if(!victory){
+            resultOfGame +=" You lost !! " + "\n" + " Pump in box " + "( "+ numberOfLine + ", " + numberOfColumn + " )"+"\n" + " We have been " + remainingBox +" boxes to discover" ;
         }
+
+        GameResult = (TextView) findViewById(R.id.GameResult);
+
+        GameResult.setText(resultOfGame);
+
+
     }
 
 
-    public void showMail(View clickedButton) {
+    public void showMail (View clickedButton){
+
 
 
         final EditText et1 = (EditText) findViewById(R.id.ResultGameEditText3);
@@ -88,9 +101,13 @@ public class ResultGameActivity extends ActionBarActivity {
 
         if (recipient.equals("")) {
             Toast.makeText(ResultGameActivity.this, "You have to put a content inEmail Adress", Toast.LENGTH_LONG).show();
-        } else {
+        }
+        else {
             Date = (TextView) findViewById(R.id.Datetv);
             String time = Date.getText().toString();
+
+            GameResult = (TextView) findViewById(R.id.Datetv);
+            String resultOfGame = Date.getText().toString();
 
             Intent testIntent = new Intent(Intent.ACTION_VIEW);
             Uri data = Uri.parse("mailto:?subject=" + time + "&body=" + resultOfGame + "&to=" + recipient);
@@ -99,12 +116,12 @@ public class ResultGameActivity extends ActionBarActivity {
         }
     }
 
-    public void showGameStarter(View clickedButton) {
+    public void showGameStarter (View clickedButton) {
         Intent in = new Intent(this, GameStarterActivity.class);
         startActivity(in);
     }
 
-    public void quitApp(View clickedButton) {
+    public void quitApp (View clickedButton){
         android.os.Process.killProcess(android.os.Process.myPid());
     }
 
