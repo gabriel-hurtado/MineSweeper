@@ -77,8 +77,11 @@ public class ResultGameActivity extends ActionBarActivity {
         if(timer && victory){
             resultOfGame += " You won " + "\n" + " It remained to you " + time + " Seconds !";
         }
+        if(!timer && victory){
+            resultOfGame += " You won ";
+        }
         if(defeatByTime) {
-            resultOfGame += "You have run out of time !!" + "\n" + " We have been " + remainingBox +" boxes to discover";
+            resultOfGame += " You have run out of time !!" + "\n" + " We have been " + remainingBox +" boxes to discover";
         }
         if(timer && !defeatByTime && !victory){
             resultOfGame += " You lost !! " + "\n" + " Pump in box " + "( "+ numberOfLine + ", " + numberOfColumn + " )"+ "\n" + " We have been " + remainingBox +" boxes to discover" + "\n" + " It remained to you " + time + " Seconds !";
