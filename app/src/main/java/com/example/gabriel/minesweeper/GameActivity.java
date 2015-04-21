@@ -37,8 +37,6 @@ public class GameActivity extends Activity {
     private Intent i;
     private Boolean victory;
     private int remainingBox;
-    private int remainingMine;
-    private CountDownTimer cT;
 
     public static int[] convertIntegers(List<Integer> integers) {
         int[] ret = new int[integers.size()];
@@ -63,8 +61,7 @@ public class GameActivity extends Activity {
         percentage = gameLog.getDouble("percentage");
         size = Integer.parseInt(gameLog.getString("size"));
         gameGeneration = new grid(size, percentage);
-        remainingBox = (int) (((size * size) - (size * size * percentage))+ 0.5) ;
-        remainingMine = (int) (size * size * percentage);
+        remainingBox = (int) (((size * size) - (size * size * percentage)) + 0.5);
         i = new Intent(this, ResultGameActivity.class);
 
         gridView.setNumColumns(size);
@@ -75,7 +72,7 @@ public class GameActivity extends Activity {
         }
 
         if (timer) {
-            cT = new CountDownTimer(120000, 1000) {
+            new CountDownTimer(120000, 1000) {
                 TextView textView = (TextView) findViewById(R.id.GameTextview);
 
                 public void onTick(long millisUntilFinished) {
@@ -152,6 +149,32 @@ public class GameActivity extends Activity {
         return (width) / cols;
     }
 
+    public Button[] BoxesNear(int position) {
+        int numberOfLine = position / size;
+        int numberOfColumn = position % size;
+        int[] positions = new int[8];
+        int numNear = 0;
+        boolean notSameCase;
+
+        for (int bouclei = 0; bouclei < size; bouclei++) {
+            for (int bouclej = 0; bouclej < size; bouclej++) {
+                notSameCase = !((bouclei == numberOfLine) && (bouclej == numberOfColumn));
+                if ((((bouclei >= numberOfLine - 1) && (bouclei <= numberOfLine + 1)) && ((bouclej >= numberOfColumn - 1) && (bouclej <= numberOfColumn + 1))) && notSameCase) {
+                    positions[numNear] = bouclei * size + bouclej;
+                    numNear += 1;
+                }
+            }
+        }
+        Button[] boxes = new Button[numNear];
+        int tempPos;
+        for (int i = 0; i < numNear; i++) {
+            tempPos = positions[i];
+            boxes[i] = (Button) gridView.getChildAt(tempPos);
+
+        }
+        return boxes;
+    }
+
     class MyOnClickListener implements View.OnClickListener {
         private int position;
 
@@ -166,7 +189,7 @@ public class GameActivity extends Activity {
                         v.setBackgroundResource(R.drawable.empty);
                         remainingBox -= 1;
                         v.setEnabled(false);
-                        for(Button but: BoxesNear(this.position)){
+                        for (Button but : BoxesNear(this.position)) {
                             if (but.isEnabled()) {
                                 but.performClick();
                             }
@@ -218,7 +241,6 @@ public class GameActivity extends Activity {
                         finished = true;
                         Toast.makeText(getApplicationContext(), "Booom ! Game over ...", Toast.LENGTH_SHORT).show();
                         victory = false;
-                        remainingMine -= 1;
                         gameLog.putInt("position", position);
                         stopGame(); //tell where is the bomb
                         break;
@@ -232,32 +254,6 @@ public class GameActivity extends Activity {
                 }
             }
         }
-    }
-
-    public Button[] BoxesNear(int position){
-        int numberOfLine = position / size ;
-        int numberOfColumn = position % size ;
-        int[] positions= new int[8];
-        int numNear=0;
-        boolean notSameCase;
-
-        for (int bouclei = 0; bouclei < size; bouclei++) {
-            for (int bouclej = 0; bouclej < size; bouclej++) {
-                notSameCase = !((bouclei==numberOfLine) && (bouclej==numberOfColumn));
-                    if ((((bouclei >= numberOfLine - 1) && (bouclei <= numberOfLine + 1)) && ((bouclej >= numberOfColumn - 1) && (bouclej <= numberOfColumn + 1)))&& notSameCase) {
-                        positions[numNear]=bouclei*size+bouclej;
-                        numNear+=1;
-                    }
-                }
-            }
-        Button[] boxes= new Button[numNear];
-        int tempPos;
-        for(int i=0;i<numNear;i++){
-            tempPos=positions[i];
-            boxes[i]=(Button) gridView.getChildAt(tempPos);
-
-        }
-        return boxes;
     }
 
     public class grid {
@@ -318,12 +314,7 @@ public class GameActivity extends Activity {
             }
 
 
-
             return value;
-        }
-
-        public int[][] getArray() {
-            return this.gridArray;
         }
 
 

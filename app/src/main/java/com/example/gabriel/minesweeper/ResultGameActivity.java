@@ -1,26 +1,26 @@
 package com.example.gabriel.minesweeper;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
 
-public class ResultGameActivity extends ActionBarActivity {    
-    private Intent in;
-    private Bundle gameLog;
+public class ResultGameActivity extends Activity {
     String resultOfGame;
     int time = 0;
     TextView Date;
     TextView GameResult;
+    private Intent in;
+    private Bundle gameLog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,6 @@ public class ResultGameActivity extends ActionBarActivity {
         int size = Integer.parseInt(gameLog.getString("size"));
         Double percentage = gameLog.getDouble("percentage");
         int remainingBox = gameLog.getInt("remainingBox");
-        int remainingMine = gameLog.getInt("remainingMine");
         int position = gameLog.getInt("position");
         int totalBoxes = (int) ((size * size) - (size * size * percentage) + 1.0);
         int totalMines = (int) (size * size * percentage);
@@ -59,52 +58,50 @@ public class ResultGameActivity extends ActionBarActivity {
             }
         }
 
-        gameLog.putInt("time",time);
-        int numberOfLine = position/size + 1;
-        int numberOfColumn = position%size + 1;
+        gameLog.putInt("time", time);
+        int numberOfLine = position / size + 1;
+        int numberOfColumn = position % size + 1;
 
         String chronometer;
-        if(timer){
+        if (timer) {
             chronometer = "activate";
-        }
-        else {
+        } else {
             chronometer = "disable";
         }
-        
-        resultOfGame = "User : " + user + "\n" + " Discovered Boxes : " + (totalBoxes-remainingBox) + "\n" +" Total of Mines : " + totalMines + "\n" + " Timer : " + chronometer +"\n";
+
+        resultOfGame = "User : " + user + "\n" + " Discovered Boxes : " + (totalBoxes - remainingBox) + "\n" + " Total of Mines : " + totalMines + "\n" + " Timer : " + chronometer + "\n";
         //"Comment faire : Percentage Discovered Mines"
 
-        if(timer && victory){
+        if (timer && victory) {
             resultOfGame += " You won " + "\n" + " It remained to you " + time + " Seconds !";
         }
-        if(!timer && victory){
+        if (!timer && victory) {
             resultOfGame += " You won ";
         }
-        if(defeatByTime) {
-            resultOfGame += " You have run out of time !!" + "\n" + " We have been " + remainingBox +" boxes to discover";
+        if (defeatByTime) {
+            resultOfGame += " You have run out of time !!" + "\n" + " We have been " + remainingBox + " boxes to discover";
         }
-        if(timer && !defeatByTime && !victory){
-            resultOfGame += " You lost !! " + "\n" + " Pump in box " + "( "+ numberOfLine + ", " + numberOfColumn + " )"+ "\n" + " We have been " + remainingBox +" boxes to discover" + "\n" + " It remained to you " + time + " Seconds !";
+        if (timer && !defeatByTime && !victory) {
+            resultOfGame += " You lost !! " + "\n" + " Pump in box " + "( " + numberOfLine + ", " + numberOfColumn + " )" + "\n" + " We have been " + remainingBox + " boxes to discover" + "\n" + " It remained to you " + time + " Seconds !";
         }
-        if(!victory && !timer){
-            resultOfGame +=" You lost !! " + "\n" + " Pump in box " + "( "+ numberOfLine + ", " + numberOfColumn + " )"+"\n" + " We have been " + remainingBox +" boxes to discover" ;
+        if (!victory && !timer) {
+            resultOfGame += " You lost !! " + "\n" + " Pump in box " + "( " + numberOfLine + ", " + numberOfColumn + " )" + "\n" + " We have been " + remainingBox + " boxes to discover";
         }
 
         GameResult = (TextView) findViewById(R.id.GameResult);
         GameResult.setText(resultOfGame.replaceAll("[\r\n]+", ""));
     }
 
-    public void showMail (View clickedButton){
+    public void showMail(View clickedButton) {
         final EditText et1 = (EditText) findViewById(R.id.ResultGameEditText3);
         String recipient = et1.getText().toString();
 
         if (recipient.equals("")) {
             Toast.makeText(ResultGameActivity.this, "You have to put a content inEmail Adress", Toast.LENGTH_LONG).show();
-        }
-        else {
+        } else {
             Date = (TextView) findViewById(R.id.Datetv);
             String time = Date.getText().toString();
-            
+
             Intent email = new Intent(Intent.ACTION_VIEW);
             Uri data = Uri.parse("mailto:?subject=" + time + "&body=" + resultOfGame + "&to=" + recipient);
             email.setData(data);
@@ -112,12 +109,12 @@ public class ResultGameActivity extends ActionBarActivity {
         }
     }
 
-    public void showGameStarter (View clickedButton) {
+    public void showGameStarter(View clickedButton) {
         Intent in = new Intent(this, GameStarterActivity.class);
         startActivity(in);
     }
 
-    public void quitApp (View clickedButton) {
+    public void quitApp(View clickedButton) {
         Intent intent = new Intent(getApplicationContext(), MainMenu.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("LOGOUT", true);

@@ -10,8 +10,7 @@ public class MainMenu extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (getIntent().getBooleanExtra("LOGOUT", false))
-        {
+        if (getIntent().getBooleanExtra("LOGOUT", false)) {
             finish();
         }
         super.onCreate(savedInstanceState);
