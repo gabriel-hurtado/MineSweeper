@@ -20,7 +20,6 @@ import java.util.Iterator;
 import java.util.List;
 
 
-
 public class GameActivity extends Activity {
     String minutes;
     String seconds;
@@ -204,8 +203,8 @@ public class GameActivity extends Activity {
                         finished = true;
                         Toast.makeText(getApplicationContext(), "Booom ! Game over ...", Toast.LENGTH_SHORT).show();
                         victory = false;
-                        remainingMine-=1;
-                        gameLog.putInt("position",position);
+                        remainingMine -= 1;
+                        gameLog.putInt("position", position);
                         stopGame(); //tell where is the bomb
                         break;
                 }
@@ -220,9 +219,6 @@ public class GameActivity extends Activity {
             }
         }
     }
-
-
-
 
 
     public class grid {
