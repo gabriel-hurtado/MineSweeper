@@ -74,7 +74,7 @@ public class ResultGameActivity extends ActionBarActivity {
         resultOfGame = "User : " + user + "\n" + " Discovered Boxes : " + (totalBoxes-remainingBox) + "\n" +" Total of Mines : " + totalMines + "\n" + " Timer : " + chronometer +"\n";
         //"Comment faire : Percentage Discovered Mines"
 
-        if(timer && !defeatByTime && victory){
+        if(timer && victory){
             resultOfGame += " You won " + "\n" + " It remained to you " + time + " Seconds !";
         }
         if(defeatByTime) {

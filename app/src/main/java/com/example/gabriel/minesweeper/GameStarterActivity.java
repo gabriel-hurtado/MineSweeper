@@ -73,7 +73,7 @@ public class GameStarterActivity extends Activity {
 
         if( !size.equals("") ) {
             int sizeGrill = Integer.parseInt(size);
-            if (sizeGrill > 1 && sizeGrill < 12) {
+            if (sizeGrill > 2 && sizeGrill < 12) {
                 good = true;
             }
         }
@@ -83,7 +83,7 @@ public class GameStarterActivity extends Activity {
                 Toast.makeText(GameStarterActivity.this, "You have to put a content in User", Toast.LENGTH_LONG).show();
             }
             else {
-                Toast.makeText(GameStarterActivity.this, "You have to put a content in User and in Size (1<size<12)", Toast.LENGTH_LONG).show();
+                Toast.makeText(GameStarterActivity.this, "You have to put a content in User and in Size (2<size<12)", Toast.LENGTH_LONG).show();
             }
         }
 
@@ -92,7 +92,7 @@ public class GameStarterActivity extends Activity {
                 startActivity(in);
             }
             else {
-                Toast.makeText(GameStarterActivity.this, "You have to put a content in Size (1<size<12)", Toast.LENGTH_LONG).show();
+                Toast.makeText(GameStarterActivity.this, "You have to put a content in Size (2<size<12)", Toast.LENGTH_LONG).show();
             }
         }
     }
