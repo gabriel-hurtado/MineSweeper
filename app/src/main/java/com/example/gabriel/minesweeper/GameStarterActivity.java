@@ -65,17 +65,35 @@ public class GameStarterActivity extends Activity {
         final EditText et2 = (EditText) findViewById(R.id.GameStarterEditText2);
         String size = et2.getText().toString();
         starterInfos.putString("size", size);
-
         starterInfos.putDouble("percentage", percentage);
 
         Intent in = new Intent(this, GameActivity.class);
         in.putExtras(starterInfos);
+        boolean good=false;
 
-        if (size.equals("") || user_name.equals("")) {
-            Toast.makeText(GameStarterActivity.this, "You have to put a content in Size and in User", Toast.LENGTH_LONG).show();
+        if( !size.equals("") ) {
+            int sizeGrill = Integer.parseInt(size);
+            if (sizeGrill > 1 && sizeGrill < 12) {
+                good = true;
+            }
         }
-        else {
-            startActivity(in);
+
+        if (user_name.equals("")) {
+            if (good) {
+                Toast.makeText(GameStarterActivity.this, "You have to put a content in User", Toast.LENGTH_LONG).show();
+            }
+            else {
+                Toast.makeText(GameStarterActivity.this, "You have to put a content in User and in Size (1<size<12)", Toast.LENGTH_LONG).show();
+            }
+        }
+
+        if ( !user_name.equals("") ) {
+            if (good) {
+                startActivity(in);
+            }
+            else {
+                Toast.makeText(GameStarterActivity.this, "You have to put a content in Size (1<size<12)", Toast.LENGTH_LONG).show();
+            }
         }
     }
 

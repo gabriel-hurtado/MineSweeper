@@ -37,8 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/GameStarterLinearLayout1"
-        android:layout_alignLeft="@+id/GameStarterLinearLayout1"
-        android:layout_alignStart="@+id/GameStarterLinearLayout1"
+        android:layout_marginTop="10dp"
         android:id="@+id/GameStarterLinearLayout2">
 
         <TextView
@@ -59,8 +58,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/GameStarterLinearLayout2"
-        android:layout_alignLeft="@+id/GameStarterLinearLayout2"
-        android:layout_alignStart="@+id/GameStarterLinearLayout2"
+        android:layout_marginTop="10dp"
         android:id="@+id/GameStarterLinearLayout3">
 
         <TextView
@@ -80,8 +78,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/GameStarterLinearLayout3"
-        android:layout_alignLeft="@+id/GameStarterLinearLayout3"
-        android:layout_alignStart="@+id/GameStarterLinearLayout3"
+        android:layout_marginTop="10dp"
         android:id="@+id/GameStarterLinearLayout4">
 
         <TextView
@@ -120,6 +117,7 @@
         android:text="@string/PlayButton"
         android:onClick="showGame"
         android:layout_below="@+id/GameStarterLinearLayout4"
+        android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

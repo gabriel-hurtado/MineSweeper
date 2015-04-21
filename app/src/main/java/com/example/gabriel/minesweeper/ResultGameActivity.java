@@ -4,18 +4,15 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.TimeZone;
 
 
 public class ResultGameActivity extends ActionBarActivity {
@@ -25,6 +22,7 @@ public class ResultGameActivity extends ActionBarActivity {
     int time = 0;
     TextView Date;
     TextView GameResult;
+    private static final String TAG = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,14 +60,22 @@ public class ResultGameActivity extends ActionBarActivity {
                 defeatByTime = true;
             }
         }
-        gameLog.putBoolean("defeatByTime",defeatByTime);
+
         gameLog.putInt("time",time);
-        int boxToDiscover = size * size - remainingMine-remainingBox;
         int numberOfLine = position/size + 1;
         int numberOfColumn = position%size + 1;
 
+        String chronometer;
+        if(timer){
+            chronometer = "activate";
+        }
+        else {
+            chronometer = "disable";
+        }
 
-        resultOfGame = "User : " + user + "\n" + " Discovered Boxes : " + (totalBoxes-remainingBox) +"\n" + " Percentage Discovered Mines : " + remainingMine/totalMines +"\n" + " Total of Mines " + totalMines + "\n" ;
+
+        resultOfGame = "User : " + user + "\n" + " Discovered Boxes : " + (totalBoxes-remainingBox) + " Total of Mines : " + totalMines + "\n" + "Timer : " + chronometer +"\n";
+        //"Comment faire : Percentage Discovered Mines"
 
         if(timer && !defeatByTime && victory){
             resultOfGame += " You won " + "\n" + " You have been overrun " + (120-time) + " Seconds !";
@@ -80,21 +86,15 @@ public class ResultGameActivity extends ActionBarActivity {
         if(timer && !defeatByTime && !victory){
             resultOfGame += " You lost !! " + "\n" + " Pump in box " + "( "+ numberOfLine + ", " + numberOfColumn + " )"+ "\n" + " We have been " + remainingBox +" boxes to discover" + "\n" + " You have been overrun " + (120-time) + " Seconds !";
         }
-        if(!victory){
+        if(!victory && !timer){
             resultOfGame +=" You lost !! " + "\n" + " Pump in box " + "( "+ numberOfLine + ", " + numberOfColumn + " )"+"\n" + " We have been " + remainingBox +" boxes to discover" ;
         }
 
         GameResult = (TextView) findViewById(R.id.GameResult);
-
-        GameResult.setText(resultOfGame);
-
-
+        GameResult.setText(resultOfGame.replaceAll("[\r\n]+", ""));
     }
 
-
     public void showMail (View clickedButton){
-
-
 
         final EditText et1 = (EditText) findViewById(R.id.ResultGameEditText3);
         String recipient = et1.getText().toString();
@@ -105,9 +105,6 @@ public class ResultGameActivity extends ActionBarActivity {
         else {
             Date = (TextView) findViewById(R.id.Datetv);
             String time = Date.getText().toString();
-
-            GameResult = (TextView) findViewById(R.id.Datetv);
-            String resultOfGame = Date.getText().toString();
 
             Intent testIntent = new Intent(Intent.ACTION_VIEW);
             Uri data = Uri.parse("mailto:?subject=" + time + "&body=" + resultOfGame + "&to=" + recipient);
@@ -121,8 +118,11 @@ public class ResultGameActivity extends ActionBarActivity {
         startActivity(in);
     }
 
-    public void quitApp (View clickedButton){
-        android.os.Process.killProcess(android.os.Process.myPid());
+    public void quitApp (View clickedButton) {
+        Intent intent = new Intent(getApplicationContext(), MainMenu.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("LOGOUT", true);
+        startActivity(intent);
     }
 
 }
