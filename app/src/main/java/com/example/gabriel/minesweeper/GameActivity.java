@@ -63,7 +63,7 @@ public class GameActivity extends Activity {
         percentage = gameLog.getDouble("percentage");
         size = Integer.parseInt(gameLog.getString("size"));
         gameGeneration = new grid(size, percentage);
-        remainingBox = (int) ((size * size) - (size * size * percentage) + 1.0);
+        remainingBox = (int) (((size * size) - (size * size * percentage))+ 0.5) ;
         remainingMine = (int) (size * size * percentage);
         i = new Intent(this, ResultGameActivity.class);
 
