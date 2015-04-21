@@ -71,17 +71,17 @@ public class ResultGameActivity extends ActionBarActivity {
             chronometer = "disable";
         }
         
-        resultOfGame = "User : " + user + "\n" + " Discovered Boxes : " + (totalBoxes-remainingBox) + " Total of Mines : " + totalMines + "\n" + "Timer : " + chronometer +"\n";
+        resultOfGame = "User : " + user + "\n" + " Discovered Boxes : " + (totalBoxes-remainingBox) + "\n" +" Total of Mines : " + totalMines + "\n" + " Timer : " + chronometer +"\n";
         //"Comment faire : Percentage Discovered Mines"
 
         if(timer && !defeatByTime && victory){
-            resultOfGame += " You won " + "\n" + " You have been overrun " + (120-time) + " Seconds !";
+            resultOfGame += " You won " + "\n" + " It remained to you " + time + " Seconds !";
         }
         if(defeatByTime) {
             resultOfGame += "You have run out of time !!" + "\n" + " We have been " + remainingBox +" boxes to discover";
         }
         if(timer && !defeatByTime && !victory){
-            resultOfGame += " You lost !! " + "\n" + " Pump in box " + "( "+ numberOfLine + ", " + numberOfColumn + " )"+ "\n" + " We have been " + remainingBox +" boxes to discover" + "\n" + " You have been overrun " + (120-time) + " Seconds !";
+            resultOfGame += " You lost !! " + "\n" + " Pump in box " + "( "+ numberOfLine + ", " + numberOfColumn + " )"+ "\n" + " We have been " + remainingBox +" boxes to discover" + "\n" + " It remained to you " + time + " Seconds !";
         }
         if(!victory && !timer){
             resultOfGame +=" You lost !! " + "\n" + " Pump in box " + "( "+ numberOfLine + ", " + numberOfColumn + " )"+"\n" + " We have been " + remainingBox +" boxes to discover" ;
@@ -102,10 +102,10 @@ public class ResultGameActivity extends ActionBarActivity {
             Date = (TextView) findViewById(R.id.Datetv);
             String time = Date.getText().toString();
             
-            Intent testIntent = new Intent(Intent.ACTION_VIEW);
+            Intent email = new Intent(Intent.ACTION_VIEW);
             Uri data = Uri.parse("mailto:?subject=" + time + "&body=" + resultOfGame + "&to=" + recipient);
-            testIntent.setData(data);
-            startActivity(testIntent);
+            email.setData(data);
+            startActivity(email);
         }
     }
 
