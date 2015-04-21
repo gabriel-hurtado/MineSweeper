@@ -12,8 +12,8 @@ import android.widget.Toast;
 
 
 public class GameStarterActivity extends Activity {
-     Bundle starterInfos = new Bundle();
     public Double percentage;
+    Bundle starterInfos = new Bundle();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -22,30 +22,6 @@ public class GameStarterActivity extends Activity {
         setContentView(R.layout.activity_game_starter);
         RadioGroup radioGroup = (RadioGroup) findViewById(R.id.rgPercentMines);
         radioGroup.setOnCheckedChangeListener(new RadioGroupInfo());
-    }
-
-    private class RadioGroupInfo implements RadioGroup.OnCheckedChangeListener {
-
-        public RadioGroupInfo() {
-        }
-
-        @Override
-        public void onCheckedChanged(RadioGroup group, int checkedId) {
-
-            RadioButton newChecked = (RadioButton) findViewById(checkedId);
-            String dataNewChecked = newChecked.getText().toString();
-            switch (dataNewChecked){
-                case "15 %":
-                    percentage = 0.15;
-                    break;
-                case "25 %":
-                    percentage = 0.25;
-                    break;
-                case "35 %":
-                    percentage = 0.35;
-                    break;
-            }
-        }
     }
 
     public void onClickCheckBox(View clickedButton) {
@@ -57,7 +33,7 @@ public class GameStarterActivity extends Activity {
         }
     }
 
-    public void showGame (View clickedButton) {
+    public void showGame(View clickedButton) {
         final EditText et1 = (EditText) findViewById(R.id.GameStarterEditText1);
         String user_name = et1.getText().toString();
         starterInfos.putString("UserName", user_name);
@@ -73,9 +49,32 @@ public class GameStarterActivity extends Activity {
 
         if (size.equals("") || user_name.equals("")) {
             Toast.makeText(GameStarterActivity.this, "You have to put a content in Size and in User", Toast.LENGTH_LONG).show();
-        }
-        else {
+        } else {
             startActivity(in);
+        }
+    }
+
+    private class RadioGroupInfo implements RadioGroup.OnCheckedChangeListener {
+
+        public RadioGroupInfo() {
+        }
+
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+            RadioButton newChecked = (RadioButton) findViewById(checkedId);
+            String dataNewChecked = newChecked.getText().toString();
+            switch (dataNewChecked) {
+                case "15 %":
+                    percentage = 0.15;
+                    break;
+                case "25 %":
+                    percentage = 0.25;
+                    break;
+                case "35 %":
+                    percentage = 0.35;
+                    break;
+            }
         }
     }
 

@@ -14,7 +14,7 @@ public class HelpActivity extends Activity {
         setContentView(R.layout.activity_help);
     }
 
-    public void showMainMenu (View clickedButton) {
+    public void showMainMenu(View clickedButton) {
         Intent in = new Intent(this, MainMenu.class);
         startActivity(in);
     }
