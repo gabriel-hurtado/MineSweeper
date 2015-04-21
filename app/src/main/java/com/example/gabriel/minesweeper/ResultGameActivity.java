@@ -9,20 +9,18 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
 
-public class ResultGameActivity extends ActionBarActivity {
+public class ResultGameActivity extends ActionBarActivity {    
     private Intent in;
     private Bundle gameLog;
     String resultOfGame;
     int time = 0;
     TextView Date;
     TextView GameResult;
-    private static final String TAG = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +37,7 @@ public class ResultGameActivity extends ActionBarActivity {
         int remainingBox = gameLog.getInt("remainingBox");
         int remainingMine = gameLog.getInt("remainingMine");
         int position = gameLog.getInt("position");
-        int totalBoxes = (int) ((size * size) - (size * size * percentage)+1.0);
+        int totalBoxes = (int) ((size * size) - (size * size * percentage) + 1.0);
         int totalMines = (int) (size * size * percentage);
         boolean defeatByTime = false;
 
@@ -47,16 +45,16 @@ public class ResultGameActivity extends ActionBarActivity {
         Date = (TextView) findViewById(R.id.Datetv);
         DateFormat localDf = DateFormat.getDateTimeInstance(
                 DateFormat.FULL,
-                DateFormat.FULL, new Locale("EN","en"));
+                DateFormat.FULL, new Locale("EN", "en"));
         Date.setText(localDf.format(today));
 
-        if(timer) {
-            int minutes= gameLog.getInt("minutes");
+        if (timer) {
+            int minutes = gameLog.getInt("minutes");
             int seconds = gameLog.getInt("seconds");
-            time = minutes*60+seconds;
+            time = minutes * 60 + seconds;
 
 
-            if(time == 0){
+            if (time == 0) {
                 defeatByTime = true;
             }
         }
@@ -72,8 +70,7 @@ public class ResultGameActivity extends ActionBarActivity {
         else {
             chronometer = "disable";
         }
-
-
+        
         resultOfGame = "User : " + user + "\n" + " Discovered Boxes : " + (totalBoxes-remainingBox) + " Total of Mines : " + totalMines + "\n" + "Timer : " + chronometer +"\n";
         //"Comment faire : Percentage Discovered Mines"
 
@@ -95,7 +92,6 @@ public class ResultGameActivity extends ActionBarActivity {
     }
 
     public void showMail (View clickedButton){
-
         final EditText et1 = (EditText) findViewById(R.id.ResultGameEditText3);
         String recipient = et1.getText().toString();
 
@@ -105,7 +101,7 @@ public class ResultGameActivity extends ActionBarActivity {
         else {
             Date = (TextView) findViewById(R.id.Datetv);
             String time = Date.getText().toString();
-
+            
             Intent testIntent = new Intent(Intent.ACTION_VIEW);
             Uri data = Uri.parse("mailto:?subject=" + time + "&body=" + resultOfGame + "&to=" + recipient);
             testIntent.setData(data);

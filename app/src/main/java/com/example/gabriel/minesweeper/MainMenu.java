@@ -18,17 +18,17 @@ public class MainMenu extends Activity {
         setContentView(R.layout.activity_main_menu);
     }
 
-    public void showHelp (View clickedButton) {
+    public void showHelp(View clickedButton) {
         Intent in = new Intent(this, HelpActivity.class);
         startActivity(in);
     }
 
-    public void showGameStarter (View clickedButton) {
+    public void showGameStarter(View clickedButton) {
         Intent in = new Intent(this, GameStarterActivity.class);
         startActivity(in);
     }
 
-    public void quitApp (View clickedButton){
+    public void quitApp(View clickedButton) {
         android.os.Process.killProcess(android.os.Process.myPid());
     }
 

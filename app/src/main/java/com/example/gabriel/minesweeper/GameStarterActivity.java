@@ -12,8 +12,8 @@ import android.widget.Toast;
 
 
 public class GameStarterActivity extends Activity {
-     Bundle starterInfos = new Bundle();
     public Double percentage;
+    Bundle starterInfos = new Bundle();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
