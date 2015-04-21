@@ -33,7 +33,7 @@
 
     <!-- TextView -->
     <string name="UserName">User Name : </string>
-    <string name="SizeGrill">Size Grill : </string>
+    <string name="SizeGrill">Size Grill (between 2 and 11 ) : </string>
     <string name="Timer">Timer : </string>
     <string name="Date_Hour">Date and Hour :  </string>
     <string name="Data">Data of the game :   </string>
