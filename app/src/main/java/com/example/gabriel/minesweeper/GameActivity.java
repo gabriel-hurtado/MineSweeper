@@ -165,41 +165,56 @@ public class GameActivity extends Activity {
                     case 0:
                         v.setBackgroundResource(R.drawable.empty);
                         remainingBox -= 1;
+                        v.setEnabled(false);
+                        for(Button but: BoxesNear(this.position)){
+                            if (but.isEnabled()) {
+                                but.performClick();
+                            }
+                        }
                         break;
                     case 1:
                         v.setBackgroundResource(R.drawable.n1);
+                        v.setEnabled(false);
                         remainingBox -= 1;
                         break;
                     case 2:
                         v.setBackgroundResource(R.drawable.n2);
+                        v.setEnabled(false);
                         remainingBox -= 1;
                         break;
                     case 3:
                         v.setBackgroundResource(R.drawable.n3);
+                        v.setEnabled(false);
                         remainingBox -= 1;
                         break;
                     case 4:
                         v.setBackgroundResource(R.drawable.n4);
+                        v.setEnabled(false);
                         remainingBox -= 1;
                         break;
                     case 5:
                         v.setBackgroundResource(R.drawable.n5);
+                        v.setEnabled(false);
                         remainingBox -= 1;
                         break;
                     case 6:
                         v.setBackgroundResource(R.drawable.n6);
+                        v.setEnabled(false);
                         remainingBox -= 1;
                         break;
                     case 7:
                         v.setBackgroundResource(R.drawable.n7);
+                        v.setEnabled(false);
                         remainingBox -= 1;
                         break;
                     case 8:
                         v.setBackgroundResource(R.drawable.n8);
+                        v.setEnabled(false);
                         remainingBox -= 1;
                         break;
                     case -1:
                         v.setBackgroundResource(R.drawable.bomb);
+                        v.setEnabled(false);
                         finished = true;
                         Toast.makeText(getApplicationContext(), "Booom ! Game over ...", Toast.LENGTH_SHORT).show();
                         victory = false;
@@ -215,11 +230,35 @@ public class GameActivity extends Activity {
                     Toast.makeText(getApplicationContext(), "Look like we've got a winner !", Toast.LENGTH_SHORT).show();
                     stopGame();
                 }
-                v.setEnabled(false);
             }
         }
     }
 
+    public Button[] BoxesNear(int position){
+        int numberOfLine = position / size ;
+        int numberOfColumn = position % size ;
+        int[] positions= new int[8];
+        int numNear=0;
+        boolean notSameCase;
+
+        for (int bouclei = 0; bouclei < size; bouclei++) {
+            for (int bouclej = 0; bouclej < size; bouclej++) {
+                notSameCase = !((bouclei==numberOfLine) && (bouclej==numberOfColumn));
+                    if ((((bouclei >= numberOfLine - 1) && (bouclei <= numberOfLine + 1)) && ((bouclej >= numberOfColumn - 1) && (bouclej <= numberOfColumn + 1)))&& notSameCase) {
+                        positions[numNear]=bouclei*size+bouclej;
+                        numNear+=1;
+                    }
+                }
+            }
+        Button[] boxes= new Button[numNear];
+        int tempPos;
+        for(int i=0;i<numNear;i++){
+            tempPos=positions[i];
+            boxes[i]=(Button) gridView.getChildAt(tempPos);
+
+        }
+        return boxes;
+    }
 
     public class grid {
         private int[][] gridArray;
@@ -277,6 +316,8 @@ public class GameActivity extends Activity {
                     }
                 }
             }
+
+
 
             return value;
         }
