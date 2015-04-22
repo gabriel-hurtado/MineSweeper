@@ -68,6 +68,10 @@ public class GameActivity extends Activity {
 
         gridView.setNumColumns(size);
         gridView.setAdapter(new ButtonAdapter(this));
+
+        TextView textView = (TextView) findViewById(R.id.GameTextView3);
+        textView.setText("Number of Mines : " + remainingBox);
+
         if (isLandscape) {
             layoutbase = (FrameLayout) findViewById(R.id.layout);
 
@@ -75,7 +79,7 @@ public class GameActivity extends Activity {
 
         if (timer) {
             new CountDownTimer(120000, 1000) {
-                TextView textView = (TextView) findViewById(R.id.GameTextview);
+                TextView textView = (TextView) findViewById(R.id.GameTextView2);
 
                 public void onTick(long millisUntilFinished) {
 
@@ -265,6 +269,9 @@ public class GameActivity extends Activity {
                     Toast.makeText(getApplicationContext(), "Look like we've got a winner !", Toast.LENGTH_SHORT).show();
                     stopGame();
                 }
+
+            TextView textView = (TextView) findViewById(R.id.GameTextView3);
+            textView.setText("Number of Boxes : " + remainingBox);
             }
         }
     }
@@ -326,8 +333,6 @@ public class GameActivity extends Activity {
                     }
                 }
             }
-
-
             return value;
         }
 
