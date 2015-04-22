@@ -39,15 +39,6 @@ public class GameActivity extends Activity {
     private Boolean victory;
     private int remainingBox;
 
-    public static int[] convertIntegers(List<Integer> integers) {
-        int[] ret = new int[integers.size()];
-        Iterator<Integer> iterator = integers.iterator();
-        for (int i = 0; i < ret.length; i++) {
-            ret[i] = iterator.next();
-        }
-        return ret;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,9 +90,43 @@ public class GameActivity extends Activity {
                     }
                 }
             }.start();
-
         }
     }
+
+    /*@Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        String stateSaved = savedInstanceState.getString("saved_state");
+
+        if(stateSaved == null){
+            Toast.makeText(MainActivity.this,
+                    "onRestoreInstanceState:\n" +
+                            "NO state saved!",
+                    Toast.LENGTH_LONG).show();
+        }else{
+            Toast.makeText(MainActivity.this,
+                    "onRestoreInstanceState:\n" +
+                            "saved state = " + stateSaved,
+                    Toast.LENGTH_LONG).show();
+            textviewSavedState.setText(stateSaved);
+            edittextEditState.setText(stateSaved);
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        String stateToSave = edittextEditState.getText().toString();
+        int remainingbox =
+        outState.putString("saved_state", stateToSave);
+
+        Toast.makeText(MainActivity.this,
+                "onSaveInstanceState:\n" +
+                        "saved_state = " + stateToSave,
+                Toast.LENGTH_LONG).show();
+    }*/
 
     public void stopGame() {
         if (timer) {
@@ -127,7 +152,7 @@ public class GameActivity extends Activity {
         int[] listArray;
         int numberOfMines = (int) ((size * size) * percentage);
         for (int i = 0; i < numberOfMines; ) {
-            int rand = ((int) (Math.random() * ((size * size) - 1)));
+            int rand = ((int) (Math.random() * (size * size) ));
             if (!list.contains(rand)) {
                 list.add(rand);
                 i++;
@@ -181,7 +206,6 @@ public class GameActivity extends Activity {
         for (int i = 0; i < length; i++) {
             tempPos = positions[i];
             boxes[i] = (Button) gridView.getChildAt(tempPos);
-
         }
         return boxes;
     }
@@ -248,18 +272,16 @@ public class GameActivity extends Activity {
                         break;
                     case -1:
 
-                            v.setEnabled(false);
-                            finished = true;
-                            Toast.makeText(getApplicationContext(), "Booom ! Game over ...", Toast.LENGTH_SHORT).show();
-                            victory = false;
-                            gameLog.putInt("position", position);
-                            for (Button but : getButtons(minePositions,minePositions.length) ){
-                                    but.setBackgroundResource(R.drawable.bomb);
-
-                            }
-
-                             stopGame();
-
+                        v.setEnabled(false);
+                        finished = true;
+                        Toast.makeText(getApplicationContext(), "Booom ! Game over ...", Toast.LENGTH_SHORT).show();
+                        victory = false;
+                        gameLog.putInt("position", position);
+                        for (Button but : getButtons(minePositions,minePositions.length) ){
+                                but.setBackgroundResource(R.drawable.bomb);
+                        }
+                        v.setBackgroundResource(R.drawable.bomb);
+                        stopGame();
                         break;
                 }
 
@@ -384,6 +406,15 @@ public class GameActivity extends Activity {
             btn.setOnClickListener(new MyOnClickListener(position));
             return btn;
         }
+    }
+
+    public static int[] convertIntegers(List<Integer> integers) {
+        int[] ret = new int[integers.size()];
+        Iterator<Integer> iterator = integers.iterator();
+        for (int i = 0; i < ret.length; i++) {
+            ret[i] = iterator.next();
+        }
+        return ret;
     }
 
 }
