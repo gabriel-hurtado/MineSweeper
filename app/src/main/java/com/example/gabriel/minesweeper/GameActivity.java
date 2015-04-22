@@ -38,6 +38,8 @@ public class GameActivity extends Activity {
     private Intent i;
     private Boolean victory;
     private int remainingBox;
+    TextView timeTextView;
+    TextView boxTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,7 @@ public class GameActivity extends Activity {
         timer = gameLog.getBoolean("timer");
         percentage = gameLog.getDouble("percentage");
         size = Integer.parseInt(gameLog.getString("size"));
+        minePositions =generateMines(percentage,size);
         gameGeneration = new grid(size, percentage);
         int numberOfMine = (int) (size*size*percentage);
         remainingBox = (size * size) - (numberOfMine);
@@ -60,24 +63,21 @@ public class GameActivity extends Activity {
         gridView.setNumColumns(size);
         gridView.setAdapter(new ButtonAdapter(this));
 
-        TextView textView = (TextView) findViewById(R.id.GameTextView3);
-        textView.setText("Number of Mines : " + remainingBox);
+        boxTextView = (TextView) findViewById(R.id.GameTextView3);
+        boxTextView.setText("Number of Mines : " + remainingBox);
 
         if (isLandscape) {
             layoutbase = (FrameLayout) findViewById(R.id.layout);
-
         }
 
         if (timer) {
             new CountDownTimer(120000, 1000) {
-                TextView textView = (TextView) findViewById(R.id.GameTextView2);
+                TextView timeTextView = (TextView) findViewById(R.id.GameTextView2);
 
                 public void onTick(long millisUntilFinished) {
-
                     minutes = String.format("%02d", millisUntilFinished / 60000);
                     seconds = String.format("%02d", millisUntilFinished % 60000 / 1000);
-
-                    textView.setText("Time remaining : " + minutes + ":" + seconds);
+                    timeTextView.setText("Time remaining : " + minutes + ":" + seconds);
                 }
 
                 public void onFinish() {
@@ -93,40 +93,28 @@ public class GameActivity extends Activity {
         }
     }
 
-    /*@Override
+    @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-
-        String stateSaved = savedInstanceState.getString("saved_state");
-
-        if(stateSaved == null){
-            Toast.makeText(MainActivity.this,
-                    "onRestoreInstanceState:\n" +
-                            "NO state saved!",
-                    Toast.LENGTH_LONG).show();
-        }else{
-            Toast.makeText(MainActivity.this,
-                    "onRestoreInstanceState:\n" +
-                            "saved state = " + stateSaved,
-                    Toast.LENGTH_LONG).show();
-            textviewSavedState.setText(stateSaved);
-            edittextEditState.setText(stateSaved);
-        }
+       super.onRestoreInstanceState(savedInstanceState);
+       int saveRemainingBox = savedInstanceState.getInt("saved_remaining_box");
+       boxTextView.setText("Number of Mines : " + saveRemainingBox);
+       /*if(timer){
+           String saveMinutes = savedInstanceState.getString("saved_minutes");
+           String saveSeconds = savedInstanceState.getString("saved_seconds");
+           timeTextView.setText("Time remaining : " + saveMinutes + ":" + saveSeconds);
+       }*/
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        outState.putInt("saved_remaining_box", remainingBox);
+        if(timer){
+            outState.putString("saved_minutes", minutes);
+            outState.putString("saved_seconds", seconds);
 
-        String stateToSave = edittextEditState.getText().toString();
-        int remainingbox =
-        outState.putString("saved_state", stateToSave);
-
-        Toast.makeText(MainActivity.this,
-                "onSaveInstanceState:\n" +
-                        "saved_state = " + stateToSave,
-                Toast.LENGTH_LONG).show();
-    }*/
+        }
+    }
 
     public void stopGame() {
         if (timer) {
@@ -271,7 +259,6 @@ public class GameActivity extends Activity {
                         remainingBox -= 1;
                         break;
                     case -1:
-
                         v.setEnabled(false);
                         finished = true;
                         Toast.makeText(getApplicationContext(), "Booom ! Game over ...", Toast.LENGTH_SHORT).show();
@@ -302,9 +289,9 @@ public class GameActivity extends Activity {
         private int[][] gridArray;
 
         public grid(int size, double percentage) {
-            minePositions =generateMines(percentage,size);
+
             this.gridArray = new int[size][size];
-            this.putMines(generateMines(percentage, size));
+            this.putMines(minePositions);
             this.addNumberOfMinesNear();
         }
 

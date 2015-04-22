@@ -39,5 +39,6 @@
     <string name="Data">Data of the game :   </string>
     <string name="PercentMines">% Mines : </string>
     <string name="Email"> Email Adress </string>
+   <!-- <string name="NumberOfBoxes"> Number of Boxes : %s </string>!-->
 
 </resources>
