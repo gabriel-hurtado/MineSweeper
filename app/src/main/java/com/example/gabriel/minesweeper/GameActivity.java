@@ -27,6 +27,7 @@ public class GameActivity extends Activity {
     Boolean isLandscape;
     FrameLayout layoutbase;
     int heightColumn;
+    int[] minePositions;
     private Intent in;
     private Bundle gameLog;
     private Boolean timer;
@@ -61,7 +62,8 @@ public class GameActivity extends Activity {
         percentage = gameLog.getDouble("percentage");
         size = Integer.parseInt(gameLog.getString("size"));
         gameGeneration = new grid(size, percentage);
-        remainingBox = (int) (((size * size) - (size * size * percentage)) + 0.5);
+        int numberOfMine = (int) (size*size*percentage);
+        remainingBox = (size * size) - (numberOfMine);
         i = new Intent(this, ResultGameActivity.class);
 
         gridView.setNumColumns(size);
@@ -165,9 +167,14 @@ public class GameActivity extends Activity {
                 }
             }
         }
-        Button[] boxes = new Button[numNear];
+        return getButtons(positions, numNear);
+
+    }
+
+    public Button[] getButtons(int[] positions, int length) {
+        Button[] boxes = new Button[length];
         int tempPos;
-        for (int i = 0; i < numNear; i++) {
+        for (int i = 0; i < length; i++) {
             tempPos = positions[i];
             boxes[i] = (Button) gridView.getChildAt(tempPos);
 
@@ -236,13 +243,19 @@ public class GameActivity extends Activity {
                         remainingBox -= 1;
                         break;
                     case -1:
-                        v.setBackgroundResource(R.drawable.bomb);
-                        v.setEnabled(false);
-                        finished = true;
-                        Toast.makeText(getApplicationContext(), "Booom ! Game over ...", Toast.LENGTH_SHORT).show();
-                        victory = false;
-                        gameLog.putInt("position", position);
-                        stopGame(); //tell where is the bomb
+
+                            v.setEnabled(false);
+                            finished = true;
+                            Toast.makeText(getApplicationContext(), "Booom ! Game over ...", Toast.LENGTH_SHORT).show();
+                            victory = false;
+                            gameLog.putInt("position", position);
+                            for (Button but : getButtons(minePositions,minePositions.length) ){
+                                    but.setBackgroundResource(R.drawable.bomb);
+
+                            }
+
+                             stopGame();
+
                         break;
                 }
 
@@ -260,6 +273,7 @@ public class GameActivity extends Activity {
         private int[][] gridArray;
 
         public grid(int size, double percentage) {
+            minePositions =generateMines(percentage,size);
             this.gridArray = new int[size][size];
             this.putMines(generateMines(percentage, size));
             this.addNumberOfMinesNear();
