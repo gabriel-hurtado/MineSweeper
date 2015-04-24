@@ -10,30 +10,51 @@
     <TextView
         android:text="@string/TitleGame"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:textColor="@color/accent_material_dark"
-        android:layout_gravity="top|end"
-        android:layout_alignParentEnd="true" />
+        android:layout_height="wrap_content"
+        android:id="@+id/GameTextView1"
+        style="@style/Title"
+        android:layout_gravity="center_horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp" />
 
-    <TextView
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:id="@+id/GameTextview"
-        android:layout_gravity="top|start"
-        android:textColor="@color/accent_material_dark" />
+        android:layout_height="wrap_content"
+        android:id="@+id/GameLinearLayout1"
+        android:layout_below="@+id/GameTextView1"
+        android:layout_marginTop="40dp" >
+
+        <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:id="@+id/GameTextView2"/>
+
+    </LinearLayout>
 
     <FrameLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/GameLinearLayout1"
+        android:id="@+id/frameLayout">
 
         <GridView
             android:id="@+id/gridview"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:stretchMode="columnWidth"
             android:layout_gravity="center"/>
     </FrameLayout>
+
+    <TextView
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_above="@+id/frameLayout"
+         android:layout_toRightOf="@+id/GameTextView1"
+         android:layout_toEndOf="@+id/GameTextView1"
+         android:id="@+id/GameTextView3"/>
 
 </RelativeLayout>
 

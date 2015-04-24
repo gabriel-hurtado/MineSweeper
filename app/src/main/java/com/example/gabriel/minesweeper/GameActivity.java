@@ -38,15 +38,9 @@ public class GameActivity extends Activity {
     private Intent i;
     private Boolean victory;
     private int remainingBox;
-
-    public static int[] convertIntegers(List<Integer> integers) {
-        int[] ret = new int[integers.size()];
-        Iterator<Integer> iterator = integers.iterator();
-        for (int i = 0; i < ret.length; i++) {
-            ret[i] = iterator.next();
-        }
-        return ret;
-    }
+    int TIME;
+    TextView timeTextView;
+    TextView boxTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,28 +55,32 @@ public class GameActivity extends Activity {
         timer = gameLog.getBoolean("timer");
         percentage = gameLog.getDouble("percentage");
         size = Integer.parseInt(gameLog.getString("size"));
+        minePositions = generateMines(percentage,size);
         gameGeneration = new grid(size, percentage);
         int numberOfMine = (int) (size*size*percentage);
         remainingBox = (size * size) - (numberOfMine);
         i = new Intent(this, ResultGameActivity.class);
+        TIME = 120000;
+
 
         gridView.setNumColumns(size);
         gridView.setAdapter(new ButtonAdapter(this));
+
+        boxTextView = (TextView) findViewById(R.id.GameTextView3);
+        boxTextView.setText("Number of Mines : " + remainingBox);
+
         if (isLandscape) {
             layoutbase = (FrameLayout) findViewById(R.id.layout);
-
         }
 
         if (timer) {
-            new CountDownTimer(120000, 1000) {
-                TextView textView = (TextView) findViewById(R.id.GameTextview);
+            new CountDownTimer(TIME, 1000) {
+                TextView timeTextView = (TextView) findViewById(R.id.GameTextView2);
 
                 public void onTick(long millisUntilFinished) {
-
                     minutes = String.format("%02d", millisUntilFinished / 60000);
                     seconds = String.format("%02d", millisUntilFinished % 60000 / 1000);
-
-                    textView.setText("Time remaining : " + minutes + ":" + seconds);
+                    timeTextView.setText("Time remaining : " + minutes + ":" + seconds);
                 }
 
                 public void onFinish() {
@@ -95,9 +93,31 @@ public class GameActivity extends Activity {
                     }
                 }
             }.start();
-
         }
     }
+
+    /*Intento de guardar los datos del echo de girrar la plantalla
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+       super.onRestoreInstanceState(savedInstanceState);
+       int saveRemainingBox = savedInstanceState.getInt("saved_remaining_box");
+       boxTextView.setText("Number of Mines : " + saveRemainingBox);
+       //if (timer) {
+           int saveMinutes = Integer.parseInt(savedInstanceState.getString("saved_minutes"));
+           int saveSeconds = Integer.parseInt(savedInstanceState.getString("saved_seconds"));
+           String CHRONO = String.valueOf(saveMinutes * 60000 + saveSeconds * 1000);
+       }//
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("saved_remaining_box", remainingBox);
+        //if(timer){
+            outState.putString("saved_minutes", minutes);
+            outState.putString("saved_seconds", seconds);
+        }//
+    }*/
 
     public void stopGame() {
         if (timer) {
@@ -123,7 +143,7 @@ public class GameActivity extends Activity {
         int[] listArray;
         int numberOfMines = (int) ((size * size) * percentage);
         for (int i = 0; i < numberOfMines; ) {
-            int rand = ((int) (Math.random() * ((size * size) - 1)));
+            int rand = ((int) (Math.random() * (size * size) ));
             if (!list.contains(rand)) {
                 list.add(rand);
                 i++;
@@ -177,7 +197,6 @@ public class GameActivity extends Activity {
         for (int i = 0; i < length; i++) {
             tempPos = positions[i];
             boxes[i] = (Button) gridView.getChildAt(tempPos);
-
         }
         return boxes;
     }
@@ -243,19 +262,16 @@ public class GameActivity extends Activity {
                         remainingBox -= 1;
                         break;
                     case -1:
-
-                            v.setEnabled(false);
-                            finished = true;
-                            Toast.makeText(getApplicationContext(), "Booom ! Game over ...", Toast.LENGTH_SHORT).show();
-                            victory = false;
-                            gameLog.putInt("position", position);
-                            for (Button but : getButtons(minePositions,minePositions.length) ){
-                                    but.setBackgroundResource(R.drawable.bomb);
-
-                            }
-
-                             stopGame();
-
+                        v.setEnabled(false);
+                        finished = true;
+                        Toast.makeText(getApplicationContext(), "Booom ! Game over ...", Toast.LENGTH_SHORT).show();
+                        victory = false;
+                        gameLog.putInt("position", position);
+                        for (Button but : getButtons(minePositions,minePositions.length) ){
+                                but.setBackgroundResource(R.drawable.bomb);
+                        }
+                        v.setBackgroundResource(R.drawable.bomb);
+                        stopGame();
                         break;
                 }
 
@@ -265,6 +281,9 @@ public class GameActivity extends Activity {
                     Toast.makeText(getApplicationContext(), "Look like we've got a winner !", Toast.LENGTH_SHORT).show();
                     stopGame();
                 }
+
+            TextView textView = (TextView) findViewById(R.id.GameTextView3);
+            textView.setText("Number of Boxes : " + remainingBox);
             }
         }
     }
@@ -273,9 +292,9 @@ public class GameActivity extends Activity {
         private int[][] gridArray;
 
         public grid(int size, double percentage) {
-            minePositions =generateMines(percentage,size);
+
             this.gridArray = new int[size][size];
-            this.putMines(generateMines(percentage, size));
+            this.putMines(minePositions);
             this.addNumberOfMinesNear();
         }
 
@@ -326,8 +345,6 @@ public class GameActivity extends Activity {
                     }
                 }
             }
-
-
             return value;
         }
 
@@ -379,6 +396,15 @@ public class GameActivity extends Activity {
             btn.setOnClickListener(new MyOnClickListener(position));
             return btn;
         }
+    }
+
+    public static int[] convertIntegers(List<Integer> integers) {
+        int[] ret = new int[integers.size()];
+        Iterator<Integer> iterator = integers.iterator();
+        for (int i = 0; i < ret.length; i++) {
+            ret[i] = iterator.next();
+        }
+        return ret;
     }
 
 }

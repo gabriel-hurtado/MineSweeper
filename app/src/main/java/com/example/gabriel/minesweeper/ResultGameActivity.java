@@ -69,7 +69,7 @@ public class ResultGameActivity extends Activity {
             chronometer = "disable";
         }
 
-        resultOfGame = "User : " + user + "\n" + " Discovered Boxes : " + (totalBoxes - remainingBox) + "\n" + " Total of Mines : " + totalMines + "\n" + " Timer : " + chronometer + "\n";
+        resultOfGame = "User : " + user + "\n" + " Discovered Boxes : " + (totalBoxes - remainingBox) + "\n" + " Percentage of Mines " + percentage + " Total of Mines : " + totalMines + "\n" + " Timer : " + chronometer + "\n";
         //"Comment faire : Percentage Discovered Mines"
 
         if (timer && victory) {

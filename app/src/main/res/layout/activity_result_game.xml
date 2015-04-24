@@ -109,12 +109,11 @@
                 android:id="@+id/ResultGameTextView2"
                 android:text="@string/Date_Hour"/>
 
-            <TextView
-                android:layout_width="fill_parent"
+            <TextView android:text="@string/TitleResultGame" android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/Datetv"
-                android:layout_below="@+id/ResultGameTextView2"
-                android:layout_marginTop="10dp" />
+                style="@style/Title"
+                android:layout_marginTop="0dp"
+                android:layout_centerHorizontal="true" />
 
         </LinearLayout>
     </RelativeLayout>
