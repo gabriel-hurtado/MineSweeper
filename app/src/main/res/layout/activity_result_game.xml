@@ -113,7 +113,8 @@
                 android:layout_height="wrap_content"
                 style="@style/Title"
                 android:layout_marginTop="0dp"
-                android:layout_centerHorizontal="true" />
+                android:layout_centerHorizontal="true"
+                android:id="@+id/Datetv" />
 
         </LinearLayout>
     </RelativeLayout>

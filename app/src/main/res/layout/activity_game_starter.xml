@@ -126,7 +126,7 @@
             android:layout_alignParentTop="true"
             style="@style/Title"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="58dp" />
+            android:layout_marginTop="0dp" />
 
     </RelativeLayout>
 
