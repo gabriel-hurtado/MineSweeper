@@ -67,7 +67,7 @@ public class GameActivity extends Activity {
         gridView.setAdapter(new ButtonAdapter(this));
 
         boxTextView = (TextView) findViewById(R.id.GameTextView3);
-        boxTextView.setText("Number of Mines : " + remainingBox);
+        boxTextView.setText("Number of Box : " + remainingBox);
 
         if (isLandscape) {
             layoutbase = (FrameLayout) findViewById(R.id.layout);

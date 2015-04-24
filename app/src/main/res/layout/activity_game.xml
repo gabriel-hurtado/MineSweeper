@@ -29,7 +29,8 @@
         <TextView
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
-             android:id="@+id/GameTextView2"/>
+             android:id="@+id/GameTextView2"
+            style="@style/Text"/>
 
     </LinearLayout>
 
@@ -54,7 +55,8 @@
          android:layout_above="@+id/frameLayout"
          android:layout_toRightOf="@+id/GameTextView1"
          android:layout_toEndOf="@+id/GameTextView1"
-         android:id="@+id/GameTextView3"/>
+         android:id="@+id/GameTextView3"
+        style="@style/Text"/>
 
 </RelativeLayout>
 

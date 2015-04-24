@@ -17,9 +17,6 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
-
-
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -42,12 +39,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style="@style/Text"
             android:id="@+id/GameTextView2"
             android:layout_gravity="left|top" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style="@style/Text"
             android:id="@+id/GameTextView3"
             android:layout_gravity="right|top" />
 

@@ -11,120 +11,120 @@
     android:background="@drawable/backrepeat"
     tools:context="com.example.gabriel.minesweeper.ResultGameActivity">
 
-    <RelativeLayout
+
+    <TextView android:text="@string/TitleResultGame"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#ffffffff">
+        style="@style/Title"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/textView2" />
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/GameStarterLinearLayout1"
+        android:layout_below="@+id/textView2"
+        android:layout_marginTop="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/GameStarterLinearLayout3"
-            android:layout_marginTop="10dp"
-            android:gravity="center">
+            android:id="@+id/ResultGameTextView2"
+            android:text="@string/Date_Hour"
+            style="@style/Text"/>
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/SendEmail"
-                android:layout_gravity="center"
-                android:onClick="showMail" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/ReturnGameStarter"
-                android:layout_gravity="center"
-                android:onClick="showGameStarter" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/QuitButton"
-                android:layout_gravity="center"
-                android:onClick="quitApp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/GameStarterLinearLayout3"
-            android:layout_below="@+id/GameStarterLinearLayout2"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true">
+            android:id="@+id/Datetv"
+            android:layout_marginTop="5dp"
+            style="@style/Text"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/ResultGameTextView4"
-                android:text="@string/Email"/>
+    </LinearLayout>
 
-            <EditText
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:layout_marginTop="10dp"
-                android:id="@+id/ResultGameEditText3" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/GameStarterLinearLayout2"
+        android:layout_below="@+id/GameStarterLinearLayout1"
+        android:layout_marginTop="10dp">
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/GameStarterLinearLayout2"
-            android:layout_below="@+id/GameStarterLinearLayout1"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true">
+            android:id="@+id/ResultGameTextView3"
+            android:text="@string/Data"
+            style="@style/Text"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/ResultGameTextView3"
-                android:text="@string/Data"/>
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/GameResult"
-                android:layout_marginTop="10dp"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/GameStarterLinearLayout1"
-            android:weightSum="1"
-            android:layout_below="@+id/textView2"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true">
+            android:id="@+id/GameResult"
+            android:layout_marginTop="5dp"
+            style="@style/Text"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/ResultGameTextView2"
-                android:text="@string/Date_Hour"/>
+    </LinearLayout>
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/Datetv"
-                android:layout_marginTop="10dp" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/GameStarterLinearLayout3"
+        android:layout_below="@+id/GameStarterLinearLayout2"
+        android:layout_marginTop="10dp">
 
-        </LinearLayout>
-
-        <TextView android:text="@string/TitleResultGame" android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/Title"
-            android:layout_marginTop="0dp"
-            android:layout_centerHorizontal="true"
-            android:id="@+id/textView2" />
-    </RelativeLayout>
+            android:id="@+id/ResultGameTextView4"
+            android:text="@string/Email"
+            style="@style/Text"/>
 
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            style="@style/Text"
+            android:layout_marginTop="5dp"
+            android:id="@+id/ResultGameEditText3" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/GameStarterLinearLayout3"
+        android:layout_marginTop="20dp"
+        android:gravity="center">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/SendEmail"
+            style="@style/Button"
+            android:layout_gravity="center"
+            android:onClick="showMail" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ReturnGameStarter"
+            style="@style/Button"
+            android:layout_gravity="center"
+            android:onClick="showGameStarter" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/QuitButton"
+            style="@style/Button"
+            android:layout_gravity="center"
+            android:onClick="quitApp" />
+
+    </LinearLayout>
 
 </RelativeLayout>

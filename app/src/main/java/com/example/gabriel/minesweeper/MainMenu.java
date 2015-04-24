@@ -28,7 +28,10 @@ public class MainMenu extends Activity {
     }
 
     public void quitApp(View clickedButton) {
-        android.os.Process.killProcess(android.os.Process.myPid());
+        Intent intent = new Intent(getApplicationContext(), MainMenu.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("LOGOUT", true);
+        startActivity(intent);
     }
 
 }
