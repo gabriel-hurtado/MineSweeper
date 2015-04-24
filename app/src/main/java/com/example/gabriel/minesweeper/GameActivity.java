@@ -38,6 +38,7 @@ public class GameActivity extends Activity {
     private Intent i;
     private Boolean victory;
     private int remainingBox;
+    int TIME;
     TextView timeTextView;
     TextView boxTextView;
 
@@ -54,11 +55,13 @@ public class GameActivity extends Activity {
         timer = gameLog.getBoolean("timer");
         percentage = gameLog.getDouble("percentage");
         size = Integer.parseInt(gameLog.getString("size"));
-        minePositions =generateMines(percentage,size);
+        minePositions = generateMines(percentage,size);
         gameGeneration = new grid(size, percentage);
         int numberOfMine = (int) (size*size*percentage);
         remainingBox = (size * size) - (numberOfMine);
         i = new Intent(this, ResultGameActivity.class);
+        TIME = 120000;
+
 
         gridView.setNumColumns(size);
         gridView.setAdapter(new ButtonAdapter(this));
@@ -71,7 +74,7 @@ public class GameActivity extends Activity {
         }
 
         if (timer) {
-            new CountDownTimer(120000, 1000) {
+            new CountDownTimer(TIME, 1000) {
                 TextView timeTextView = (TextView) findViewById(R.id.GameTextView2);
 
                 public void onTick(long millisUntilFinished) {
@@ -93,28 +96,28 @@ public class GameActivity extends Activity {
         }
     }
 
+    /*Intento de guardar los datos del echo de girrar la plantalla
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
        super.onRestoreInstanceState(savedInstanceState);
        int saveRemainingBox = savedInstanceState.getInt("saved_remaining_box");
        boxTextView.setText("Number of Mines : " + saveRemainingBox);
-       /*if(timer){
-           String saveMinutes = savedInstanceState.getString("saved_minutes");
-           String saveSeconds = savedInstanceState.getString("saved_seconds");
-           timeTextView.setText("Time remaining : " + saveMinutes + ":" + saveSeconds);
-       }*/
+       //if (timer) {
+           int saveMinutes = Integer.parseInt(savedInstanceState.getString("saved_minutes"));
+           int saveSeconds = Integer.parseInt(savedInstanceState.getString("saved_seconds"));
+           String CHRONO = String.valueOf(saveMinutes * 60000 + saveSeconds * 1000);
+       }//
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("saved_remaining_box", remainingBox);
-        if(timer){
+        //if(timer){
             outState.putString("saved_minutes", minutes);
             outState.putString("saved_seconds", seconds);
-
-        }
-    }
+        }//
+    }*/
 
     public void stopGame() {
         if (timer) {

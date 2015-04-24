@@ -20,9 +20,9 @@
                 android:text="@string/TitleMainMenu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/accent_material_dark"
                 android:layout_marginTop="58dp"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal"
+                style="@style/Title"/>
 
             <Button
                 android:layout_width="wrap_content"
