@@ -21,6 +21,16 @@ public class ResultGameActivity extends Activity {
     TextView GameResult;
     private Intent in;
     private Bundle gameLog;
+    boolean timer;
+    boolean victory;
+    String user;
+    int size;
+    Double percentage;
+    int remainingBox;
+    int position;
+    int totalBoxes;
+    int totalMines;
+    boolean defeatByTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,23 +39,16 @@ public class ResultGameActivity extends Activity {
 
         in = getIntent();
         gameLog = in.getExtras();
-        boolean timer = gameLog.getBoolean("timer");
-        boolean victory = gameLog.getBoolean("victory");
-        String user = gameLog.getString("UserName");
-        int size = Integer.parseInt(gameLog.getString("size"));
-        Double percentage = gameLog.getDouble("percentage");
-        int remainingBox = gameLog.getInt("remainingBox");
-        int position = gameLog.getInt("position");
-        int totalBoxes = (int) ((size * size) - (size * size * percentage) + 1.0);
-        int totalMines = (int) (size * size * percentage);
-        boolean defeatByTime = false;
-
-        Date today = new Date();
-        Date = (TextView) findViewById(R.id.Datetv);
-        DateFormat localDf = DateFormat.getDateTimeInstance(
-                DateFormat.FULL,
-                DateFormat.FULL, new Locale("EN", "en"));
-        Date.setText(localDf.format(today));
+        timer = gameLog.getBoolean("timer");
+        victory = gameLog.getBoolean("victory");
+        user = gameLog.getString("UserName");
+        size = Integer.parseInt(gameLog.getString("size"));
+        percentage = gameLog.getDouble("percentage");
+        remainingBox = gameLog.getInt("remainingBox");
+        position = gameLog.getInt("position");
+        totalBoxes = (int) ((size * size) - (size * size * percentage) + 1.0);
+        totalMines = (int) (size * size * percentage);
+        defeatByTime = false;
 
         if (timer) {
             int minutes = gameLog.getInt("minutes");
@@ -58,10 +61,28 @@ public class ResultGameActivity extends Activity {
             }
         }
 
-        gameLog.putInt("time", time);
-        int numberOfLine = position / size + 1;
-        int numberOfColumn = position % size + 1;
+        makeDate();
 
+        makeLog();
+    }
+
+    public void makeDate() {
+        Date today = new Date();
+        Date = (TextView) findViewById(R.id.Datetv);
+        DateFormat localDf = DateFormat.getDateTimeInstance(
+                DateFormat.FULL,
+                DateFormat.FULL, new Locale("EN", "en"));
+        Date.setText(localDf.format(today));
+    }
+
+    public void makeLog(){
+        resultOfGame = makeLogGeneral() + makeLogSpecific();
+
+        GameResult = (TextView) findViewById(R.id.GameResult);
+        GameResult.setText(resultOfGame.replaceAll("[\r\n]+", ""));
+    }
+
+    public String makeLogGeneral() {
         String chronometer;
         if (timer) {
             chronometer = "activate";
@@ -69,26 +90,32 @@ public class ResultGameActivity extends Activity {
             chronometer = "disable";
         }
 
-        resultOfGame = " User : " + user + "\n" + " Discovered Boxes : " + (totalBoxes - remainingBox) + "\n" + " Percentage of Mines " + percentage + "\n" + " Total of Mines : " + totalMines + "\n" + " Timer : " + chronometer + "\n";
+        String logGeneral = " User : " + user + "\n" + " Discovered Boxes : " + (totalBoxes - remainingBox) + "\n" + " Percentage of Mines " + percentage + "\n" + " Total of Mines : " + totalMines + "\n" + " Timer : " + chronometer + "\n";
+        return logGeneral;
+    }
+
+    public String makeLogSpecific() {
+        String logSpecific = "";
+        int numberOfLine = position / size + 1;
+        int numberOfColumn = position % size + 1;
 
         if (timer && victory) {
-            resultOfGame += " You won " + "\n" + " It remained to you " + time + " Seconds !";
+            logSpecific = " You won " + "\n" + " It remained to you " + time + " Seconds !";
         }
         if (!timer && victory) {
-            resultOfGame += " You won ";
+            logSpecific = " You won ";
         }
         if (defeatByTime) {
-            resultOfGame += " You have run out of time !!" + "\n" + " We have been " + remainingBox + " boxes to discover";
+            logSpecific = " You have run out of time !!" + "\n" + " We have been " + remainingBox + " boxes to discover";
         }
         if (timer && !defeatByTime && !victory) {
-            resultOfGame += " You lost !! " + "\n" + " Pump in box " + "( " + numberOfLine + ", " + numberOfColumn + " )" + "\n" + " We have been " + remainingBox + " boxes to discover" + "\n" + " It remained to you " + time + " Seconds !";
+            logSpecific= " You lost !! " + "\n" + " Pump in box " + "( " + numberOfLine + ", " + numberOfColumn + " )" + "\n" + " We have been " + remainingBox + " boxes to discover" + "\n" + " It remained to you " + time + " Seconds !";
         }
         if (!victory && !timer) {
-            resultOfGame += " You lost !! " + "\n" + " Pump in box " + "( " + numberOfLine + ", " + numberOfColumn + " )" + "\n" + " We have been " + remainingBox + " boxes to discover";
+            logSpecific = " You lost !! " + "\n" + " Pump in box " + "( " + numberOfLine + ", " + numberOfColumn + " )" + "\n" + " We have been " + remainingBox + " boxes to discover";
         }
 
-        GameResult = (TextView) findViewById(R.id.GameResult);
-        GameResult.setText(resultOfGame.replaceAll("[\r\n]+", ""));
+        return logSpecific;
     }
 
     public void showMail(View clickedButton) {

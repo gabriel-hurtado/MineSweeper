@@ -55,12 +55,12 @@ public class GameActivity extends Activity {
         timer = gameLog.getBoolean("timer");
         percentage = gameLog.getDouble("percentage");
         size = Integer.parseInt(gameLog.getString("size"));
-        minePositions = generateMines(percentage,size);
+        minePositions = generateMines(percentage, size);
         gameGeneration = new grid(size, percentage);
-        int numberOfMine = (int) (size*size*percentage);
+        int numberOfMine = (int) (size * size * percentage);
         remainingBox = (size * size) - (numberOfMine);
         i = new Intent(this, ResultGameActivity.class);
-        TIME = 120000;
+        TIME = size * size * 4000;
 
 
         gridView.setNumColumns(size);
@@ -74,26 +74,30 @@ public class GameActivity extends Activity {
         }
 
         if (timer) {
-            new CountDownTimer(TIME, 1000) {
-                TextView timeTextView = (TextView) findViewById(R.id.GameTextView2);
-
-                public void onTick(long millisUntilFinished) {
-                    minutes = String.format("%02d", millisUntilFinished / 60000);
-                    seconds = String.format("%02d", millisUntilFinished % 60000 / 1000);
-                    timeTextView.setText("Time remaining : " + minutes + ":" + seconds);
-                }
-
-                public void onFinish() {
-                    if (!finished) {
-                        finished = true;
-                        victory = false;
-                        seconds = "0";
-                        Toast.makeText(getApplicationContext(), "No more time ! Game over ...", Toast.LENGTH_SHORT).show();
-                        stopGame();
-                    }
-                }
-            }.start();
+            startTIME(TIME);
         }
+    }
+
+    public void startTIME(int TIME){
+        new CountDownTimer(TIME, 1000) {
+            TextView timeTextView = (TextView) findViewById(R.id.GameTextView2);
+
+            public void onTick(long millisUntilFinished) {
+                minutes = String.format("%02d", millisUntilFinished / 60000);
+                seconds = String.format("%02d", millisUntilFinished % 60000 / 1000);
+                timeTextView.setText("Time remaining : " + minutes + ":" + seconds);
+            }
+
+            public void onFinish() {
+                if (!finished) {
+                    finished = true;
+                    victory = false;
+                    seconds = "0";
+                    Toast.makeText(getApplicationContext(), "No more time ! Game over ...", Toast.LENGTH_SHORT).show();
+                    stopGame();
+                }
+            }
+        }.start();
     }
 
     /*Intento de guardar los datos del echo de girrar la plantalla
