@@ -67,7 +67,7 @@ public class GameActivity extends Activity {
         gridView.setAdapter(new ButtonAdapter(this));
 
         boxTextView = (TextView) findViewById(R.id.GameTextView3);
-        boxTextView.setText("Number of Box : " + remainingBox);
+        boxTextView.setText("Remaining Box : " + remainingBox);
 
         if (isLandscape) {
             layoutbase = (FrameLayout) findViewById(R.id.layout);
@@ -287,7 +287,7 @@ public class GameActivity extends Activity {
                 }
 
             TextView textView = (TextView) findViewById(R.id.GameTextView3);
-            textView.setText("Number of Boxes : " + remainingBox);
+            textView.setText("Remaining Box : " + remainingBox);
             }
         }
     }

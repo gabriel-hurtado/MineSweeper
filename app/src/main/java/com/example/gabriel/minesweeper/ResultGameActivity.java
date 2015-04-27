@@ -100,19 +100,19 @@ public class ResultGameActivity extends Activity {
         int numberOfColumn = position % size + 1;
 
         if (timer && victory) {
-            logSpecific = " You won " + "\n" + " It remained to you " + time + " Seconds !";
+            logSpecific = " You won " + "\n" + " You had " + time + " seconds left !";
         }
         if (!timer && victory) {
             logSpecific = " You won ";
         }
         if (defeatByTime) {
-            logSpecific = " You have run out of time !!" + "\n" + " We have been " + remainingBox + " boxes to discover";
+            logSpecific = " You ran out of time !!" + "\n" + " They were " + remainingBox + " more boxes to discover";
         }
         if (timer && !defeatByTime && !victory) {
-            logSpecific= " You lost !! " + "\n" + " Pump in box " + "( " + numberOfLine + ", " + numberOfColumn + " )" + "\n" + " We have been " + remainingBox + " boxes to discover" + "\n" + " It remained to you " + time + " Seconds !";
+            logSpecific= " You lost !! " + "\n" + " Pump in box " + "( " + numberOfLine + ", " + numberOfColumn + " )" + "\n" + " They were " + remainingBox + " more boxes to discover" + "\n" + " You had " + time + " seconds left !";
         }
         if (!victory && !timer) {
-            logSpecific = " You lost !! " + "\n" + " Pump in box " + "( " + numberOfLine + ", " + numberOfColumn + " )" + "\n" + " We have been " + remainingBox + " boxes to discover";
+            logSpecific = " You lost !! " + "\n" + " Pump in box " + "( " + numberOfLine + ", " + numberOfColumn + " )" + "\n" + " They were " + remainingBox + " more boxes to discover";
         }
 
         return logSpecific;
@@ -123,7 +123,7 @@ public class ResultGameActivity extends Activity {
         String recipient = et1.getText().toString();
 
         if (recipient.equals("")) {
-            Toast.makeText(ResultGameActivity.this, "You have to put a content inEmail Adress", Toast.LENGTH_LONG).show();
+            Toast.makeText(ResultGameActivity.this, "You have to put a content in Email Adress", Toast.LENGTH_LONG).show();
         } else {
             Date = (TextView) findViewById(R.id.Datetv);
             String time = Date.getText().toString();
