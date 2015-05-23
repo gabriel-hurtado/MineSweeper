@@ -3,26 +3,18 @@ package com.example.gabriel.minesweeper;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.example.gabriel.minesweeper.tools.*;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 
 public class GameActivity extends Activity {
@@ -41,7 +33,8 @@ public class GameActivity extends Activity {
     private Intent i;
     private Boolean victory;
     private int remainingBox;
-    int TIME;
+    private MyCountDownTimer myCountDownTimer;
+    long TIME;
     TextView timeTextView;
     TextView boxTextView;
     public tools game;
@@ -92,42 +85,49 @@ public class GameActivity extends Activity {
         super.onCreate(savedInstanceState);
     }
 
-    public void startTIME(int TIME){
-        new CountDownTimer(TIME, 1000) {
-            TextView timeTextView = (TextView) findViewById(R.id.GameTextView2);
+    public void startTIME(long TIME) {
+        myCountDownTimer = new MyCountDownTimer(TIME, 1000);
+        myCountDownTimer.start();
+    }
 
-            public void onTick(long millisUntilFinished) {
-                minutes = String.format("%02d", millisUntilFinished / 60000);
-                seconds = String.format("%02d", millisUntilFinished % 60000 / 1000);
-                timeTextView.setText("Time remaining : " + minutes + ":" + seconds);
-            }
+    private class MyCountDownTimer extends CountDownTimer {
 
-            public void onFinish() {
-                if (!finished) {
-                    finished = true;
-                    victory = false;
-                    seconds = "0";
-                    Toast.makeText(getApplicationContext(), "No more time ! Game over ...", Toast.LENGTH_SHORT).show();
-                    stopGame();
-                }
+        TextView timeTextView = (TextView) findViewById(R.id.GameTextView2);
+
+        public MyCountDownTimer(long milliseconds, long countDownInterval) {
+            super(milliseconds, countDownInterval);
+        }
+
+        public void onTick(long millisUntilFinished) {
+            minutes = String.format("%02d", millisUntilFinished / 60000);
+            seconds = String.format("%02d", millisUntilFinished % 60000 / 1000);
+            timeTextView.setText("Time remaining : " + minutes + ":" + seconds);
+        }
+
+        public void onFinish() {
+            if (!finished) {
+                finished = true;
+                victory = false;
+                seconds = "0";
+                Toast.makeText(getApplicationContext(), "No more time ! Game over ...", Toast.LENGTH_SHORT).show();
+                stopGame();
             }
-        }.start();
+        }
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
-       super.onRestoreInstanceState(savedInstanceState);
+        super.onRestoreInstanceState(savedInstanceState);
         clickedButtons.writeArray(savedInstanceState.getIntArray("clicked"));
         clickedButtons.writeNum(savedInstanceState.getInt("num"));
         game=savedInstanceState.getParcelable("CUSTOM_LISTING");
+
        if (timer) {
-           int saveMinutes = Integer.parseInt(savedInstanceState.getString("saved_minutes"));
-           int saveSeconds = Integer.parseInt(savedInstanceState.getString("saved_seconds"));
-           String CHRONO = String.valueOf(saveMinutes * 60000 + saveSeconds * 1000);
+           minutes = String.valueOf(savedInstanceState.getString("saved_minutes"));
+           seconds = String.valueOf(savedInstanceState.getString("saved_seconds"));
+           TIME = Long.parseLong(minutes) * 60000 +  Long.parseLong(seconds) * 1000;
+           startTIME(TIME);
        }
-
-
-
     }
 
     @Override
@@ -140,8 +140,10 @@ public class GameActivity extends Activity {
         if (timer) {
             outState.putString("saved_minutes", minutes);
             outState.putString("saved_seconds", seconds);
+            myCountDownTimer.cancel();
         }
     }
+
 
 
     public void stopGame() {
