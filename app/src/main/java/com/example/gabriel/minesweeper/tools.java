@@ -15,7 +15,7 @@ import java.util.List;
 
 
 public class tools implements Parcelable {
-   protected int[] minePositions;
+    protected int[] minePositions;
     protected grid gameGeneration;
     private int size;
 

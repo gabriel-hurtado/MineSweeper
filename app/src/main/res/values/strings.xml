@@ -15,7 +15,9 @@
     <string name="TitleHelp">Help</string>
     <string name="TitleGameStarter">Game Starter</string>
     <string name="TitleGame">Game</string>
-    <string name="TitleResultGame">Result Gamer</string>
+    <string name="TitleResultGame">Game Result</string>
+    <string name="TitleLogGame">Game Information</string>
+
 
     <!-- Buttons -->
     <string name="ReturnMainMenuButton">Return Main Menu</string>
