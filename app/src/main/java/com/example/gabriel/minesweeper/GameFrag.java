@@ -1,109 +1,395 @@
 package com.example.gabriel.minesweeper;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
+import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.GridView;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link GameFrag.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link GameFrag#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class GameFrag extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    CorreosListener mCallback;
+    String minutes;
+    String seconds;
+    Boolean finished;
+    Boolean isLandscape;
+    FrameLayout layoutbase;
+    int heightColumn;
+    private Intent in;
+    private Bundle gameLog;
+    private Boolean timer;
+    public double percentage;
+    public int size;
+    public GridView gridView;
+    private Intent i;
+    private Boolean victory;
+    private int remainingBox;
+    private MyCountDownTimer myCountDownTimer;
+    long TIME;
+    TextView timeTextView;
+    TextView boxTextView;
+    public tools game;
+    private ClickedArray clickedButtons;
 
-    private OnFragmentInteractionListener mListener;
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment GameFrag.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static GameFrag newInstance(String param1, String param2) {
-        GameFrag fragment = new GameFrag();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    public GameFrag() {
-        // Required empty public constructor
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+        int ot = getActivity().getResources().getConfiguration().orientation;
+        switch(ot) {
+
+            case Configuration.ORIENTATION_LANDSCAPE:
+
+                layoutbase = (FrameLayout) getView().findViewById(R.id.layout);
+                isLandscape = true;
+                break;
+            case Configuration.ORIENTATION_PORTRAIT:
+                isLandscape = false;
+                break;
         }
+
+        gameLog = getActivity().getIntent().getExtras();
+        finished = false;
+        timer = gameLog.getBoolean("timer");
+        percentage = gameLog.getDouble("percentage");
+        size = Integer.parseInt(gameLog.getString("size"));
+        game= new tools(size, percentage);
+        int numberOfMine = (int) (size * size * percentage);
+        remainingBox = (size * size) - (numberOfMine);
+        TIME = size * size * 4000;
+        clickedButtons = new ClickedArray(size);
+        if (timer) {
+            startTIME(TIME);
+        }
+
+        if (savedInstanceState != null) {
+            clickedButtons.writeArray(savedInstanceState.getIntArray("clicked"));
+            clickedButtons.writeNum(savedInstanceState.getInt("num"));
+            game=savedInstanceState.getParcelable("CUSTOM_LISTING");
+
+            if (timer) {
+                minutes = String.valueOf(savedInstanceState.getString("saved_minutes"));
+                seconds = String.valueOf(savedInstanceState.getString("saved_seconds"));
+                TIME = Long.parseLong(minutes) * 60000 +  Long.parseLong(seconds) * 1000;
+                startTIME(TIME);
+            }
+        }
+
+
     }
 
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater,
+                             ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
+
+
         return inflater.inflate(R.layout.fragment_game, container, false);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+    @Override
+    public void onActivityCreated(Bundle state) {
+
+        super.onActivityCreated(state);
+
+        gridView = (GridView) getView().findViewById(R.id.gridview);
+        gridView.setNumColumns(size);
+        gridView.setAdapter(new ButtonAdapter(getActivity()));
+
+        boxTextView = (TextView) getView().findViewById(R.id.GameTextView3);
+        boxTextView.setText("Remaining Box : " + remainingBox);
+        //Execute ths after gridview generation
+        Handler myHandler = new Refresh();
+        Message m = new Message();
+        myHandler.sendMessageDelayed(m, 1000);
+
+        i = new Intent(getActivity(), ResultGameActivity.class);
+
+
+
+
+
+
     }
 
+
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Activity ac) {
+        super.onAttach(ac);
+
         try {
-            mListener = (OnFragmentInteractionListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
+            mCallback = (CorreosListener) ac;
+        }
+        catch (ClassCastException e) {
+            throw new ClassCastException(ac.toString() + " must implement OnCorreosListener");
         }
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+
+
+
+
+
+    public void startTIME(long TIME) {
+        myCountDownTimer = new MyCountDownTimer(TIME, 1000);
+        myCountDownTimer.start();
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
+    private class MyCountDownTimer extends CountDownTimer {
+
+        TextView timeTextView = (TextView) getView().findViewById(R.id.GameTextView2);
+
+        public MyCountDownTimer(long milliseconds, long countDownInterval) {
+            super(milliseconds, countDownInterval);
+        }
+
+        public void onTick(long millisUntilFinished) {
+            minutes = String.format("%02d", millisUntilFinished / 60000);
+            seconds = String.format("%02d", millisUntilFinished % 60000 / 1000);
+            timeTextView.setText("Time remaining : " + minutes + ":" + seconds);
+        }
+
+        public void onFinish() {
+            if (!finished) {
+                finished = true;
+                victory = false;
+                seconds = "0";
+                Toast.makeText(getActivity(), "No more time ! Game over ...", Toast.LENGTH_SHORT).show();
+                stopGame();
+            }
+        }
+    }
+
+
+
+    public void stopGame() {
+        if (timer) {
+            gameLog.putInt("minutes", Integer.parseInt(minutes));
+            gameLog.putInt("seconds", Integer.parseInt(seconds));
+        }
+
+        gameLog.putBoolean("victory", victory);
+        gameLog.putInt("remainingBox", remainingBox);
+        i.putExtras(gameLog);
+        // Execute some code after 2 seconds have passed
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                startActivity(i);
+            }
+        }, 2000);
+
+    }
+
+
+
+
+    public class ButtonAdapter extends BaseAdapter {
+        private Context mContext;
+
+        public ButtonAdapter(Context c) {
+            mContext = c;
+        }
+
+        public int getCount() {
+            return size * size;
+        }
+
+        public Object getItem(int position) {
+            return null;
+        }
+
+        public long getItemId(int position) {
+            return position;
+        }
+
+        public View getView(int position, View convertView, ViewGroup parent) {
+            Button btn;
+            btn = new Button(mContext);
+
+            btn.setBackgroundResource(R.drawable.undiscovered);
+
+            if (!isLandscape) {
+
+                //Scale button using layout params
+                int width = tools.getColumnWidth(mContext, (GridView) ((GameActivity) mContext).findViewById(R.id.gridview));
+
+                btn.setLayoutParams(new GridView.LayoutParams(width, width));
+            } else {
+                heightColumn = layoutbase.getHeight();
+                int widthFull = layoutbase.getWidth();
+                heightColumn = heightColumn / (size);
+                btn.setLayoutParams(new GridView.LayoutParams(heightColumn, heightColumn));
+                if (heightColumn > 0) {
+                    int paddingLeft = (widthFull / 2) - ((size * heightColumn) / 2);
+                    gridView.setHorizontalSpacing(heightColumn);
+                    gridView.setPadding(paddingLeft, 0, 0, 0);
+                }
+            }
+            btn.setOnClickListener(new MyOnClickListener(position));
+
+
+
+
+
+            return btn;
+        }
+    }
+
+
+
+    public interface CorreosListener {
+        void onCorreoSeleccionado(ClickedArray cl);
+    }
+
+    public void setCorreosListener(CorreosListener listener) {
+
+
+    }
+
+
+
+
+
+
+
+    class MyOnClickListener implements View.OnClickListener {
+        private int position;
+
+        public MyOnClickListener(int position) {
+            this.position = position;
+        }
+
+        public void onClick(View v) {
+            if (!finished) {
+                clickedButtons.clicked(this.position);
+                switch (game.getGrid().toSimpleArray()[this.position]) {
+                    case 0:
+                        v.setBackgroundResource(R.drawable.empty);
+                        remainingBox -= 1;
+                        v.setEnabled(false);
+                        for (Button but : game.BoxesNear(this.position, gridView)) {
+                            if (but.isEnabled()) {
+                                but.performClick();
+                            }
+                        }
+                        break;
+                    case 1:
+                        v.setBackgroundResource(R.drawable.n1);
+                        v.setEnabled(false);
+                        remainingBox -= 1;
+                        break;
+                    case 2:
+                        v.setBackgroundResource(R.drawable.n2);
+                        v.setEnabled(false);
+                        remainingBox -= 1;
+                        break;
+                    case 3:
+                        v.setBackgroundResource(R.drawable.n3);
+                        v.setEnabled(false);
+                        remainingBox -= 1;
+                        break;
+                    case 4:
+                        v.setBackgroundResource(R.drawable.n4);
+                        v.setEnabled(false);
+                        remainingBox -= 1;
+                        break;
+                    case 5:
+                        v.setBackgroundResource(R.drawable.n5);
+                        v.setEnabled(false);
+                        remainingBox -= 1;
+                        break;
+                    case 6:
+                        v.setBackgroundResource(R.drawable.n6);
+                        v.setEnabled(false);
+                        remainingBox -= 1;
+                        break;
+                    case 7:
+                        v.setBackgroundResource(R.drawable.n7);
+                        v.setEnabled(false);
+                        remainingBox -= 1;
+                        break;
+                    case 8:
+                        v.setBackgroundResource(R.drawable.n8);
+                        v.setEnabled(false);
+                        remainingBox -= 1;
+                        break;
+                    case -1:
+                        v.setEnabled(false);
+                        finished = true;
+                        Toast.makeText(getActivity(), "Booom ! Game over ...", Toast.LENGTH_SHORT).show();
+                        victory = false;
+                        gameLog.putInt("position", position);
+                        for (Button but : tools.getButtons(game.getMinePos(), game.getMinePos().length, gridView) ){
+                            but.setBackgroundResource(R.drawable.bomb);
+                        }
+                        v.setBackgroundResource(R.drawable.bomb);
+                        stopGame();
+                        break;
+                }
+
+                if (remainingBox == 0) {
+                    finished = true;
+                    victory = true;
+                    Toast.makeText(getActivity(), "Look like we've got a winner !", Toast.LENGTH_SHORT).show();
+                    stopGame();
+                }
+
+                TextView textView = (TextView) getView().findViewById(R.id.GameTextView3);
+                textView.setText("Remaining Box : " + remainingBox);
+            }
+            mCallback.onCorreoSeleccionado(clickedButtons);
+        }
+    }
+
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("saved_remaining_box", remainingBox);
+        outState.putIntArray("clicked", clickedButtons.getArray());
+        outState.putInt("num", clickedButtons.getNum());
+        outState.putParcelable("CUSTOM_LISTING", game  );
+        if (timer) {
+            outState.putString("saved_minutes", minutes);
+            outState.putString("saved_seconds", seconds);
+            myCountDownTimer.cancel();
+        }
+    }
+
+
+
+    class Refresh extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            if (clickedButtons.getNum() != 0) {
+                for (Button but : tools.getButtons(clickedButtons.getClicked(), clickedButtons.getNum(), gridView)) { if (but.isEnabled()) {
+                    but.performClick();
+
+                } } }
+        }
     }
 
 }
