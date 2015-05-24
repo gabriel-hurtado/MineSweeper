@@ -4,37 +4,31 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.GridView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
 public class GameFrag extends Fragment {
 
-    CorreosListener mCallback;
+    GridListener mCallback;
     String minutes;
     String seconds;
     Boolean finished;
     Boolean isLandscape;
     FrameLayout layoutbase;
     int heightColumn;
-    private Intent in;
     private Bundle gameLog;
     private Boolean timer;
     public double percentage;
@@ -50,16 +44,12 @@ public class GameFrag extends Fragment {
     public tools game;
     private ClickedArray clickedButtons;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         int ot = getActivity().getResources().getConfiguration().orientation;
         switch(ot) {
-
             case Configuration.ORIENTATION_LANDSCAPE:
-
-                layoutbase = (FrameLayout) getView().findViewById(R.id.layout);
                 isLandscape = true;
                 break;
             case Configuration.ORIENTATION_PORTRAIT:
@@ -77,6 +67,7 @@ public class GameFrag extends Fragment {
         remainingBox = (size * size) - (numberOfMine);
         TIME = size * size * 4000;
         clickedButtons = new ClickedArray(size);
+
         if (timer) {
             startTIME(TIME);
         }
@@ -93,25 +84,22 @@ public class GameFrag extends Fragment {
                 startTIME(TIME);
             }
         }
-
-
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
-
-
-
         return inflater.inflate(R.layout.fragment_game, container, false);
     }
 
     @Override
     public void onActivityCreated(Bundle state) {
-
         super.onActivityCreated(state);
+
+        if(isLandscape){
+            layoutbase = (FrameLayout) getView().findViewById(R.id.layout);
+        }
 
         gridView = (GridView) getView().findViewById(R.id.gridview);
         gridView.setNumColumns(size);
@@ -125,31 +113,19 @@ public class GameFrag extends Fragment {
         myHandler.sendMessageDelayed(m, 1000);
 
         i = new Intent(getActivity(), ResultGameActivity.class);
-
-
-
-
-
-
     }
-
 
     @Override
     public void onAttach(Activity ac) {
         super.onAttach(ac);
 
         try {
-            mCallback = (CorreosListener) ac;
+            mCallback = (GridListener) ac;
         }
         catch (ClassCastException e) {
             throw new ClassCastException(ac.toString() + " must implement OnCorreosListener");
         }
     }
-
-
-
-
-
 
     public void startTIME(long TIME) {
         myCountDownTimer = new MyCountDownTimer(TIME, 1000);
@@ -158,8 +134,6 @@ public class GameFrag extends Fragment {
 
     private class MyCountDownTimer extends CountDownTimer {
 
-        TextView timeTextView = (TextView) getView().findViewById(R.id.GameTextView2);
-
         public MyCountDownTimer(long milliseconds, long countDownInterval) {
             super(milliseconds, countDownInterval);
         }
@@ -167,6 +141,7 @@ public class GameFrag extends Fragment {
         public void onTick(long millisUntilFinished) {
             minutes = String.format("%02d", millisUntilFinished / 60000);
             seconds = String.format("%02d", millisUntilFinished % 60000 / 1000);
+            TextView timeTextView = (TextView) getView().findViewById(R.id.GameTextView2);
             timeTextView.setText("Time remaining : " + minutes + ":" + seconds);
         }
 
@@ -180,8 +155,6 @@ public class GameFrag extends Fragment {
             }
         }
     }
-
-
 
     public void stopGame() {
         if (timer) {
@@ -199,11 +172,7 @@ public class GameFrag extends Fragment {
                 startActivity(i);
             }
         }, 2000);
-
     }
-
-
-
 
     public class ButtonAdapter extends BaseAdapter {
         private Context mContext;
@@ -248,31 +217,17 @@ public class GameFrag extends Fragment {
                 }
             }
             btn.setOnClickListener(new MyOnClickListener(position));
-
-
-
-
-
             return btn;
         }
     }
 
-
-
-    public interface CorreosListener {
-        void onCorreoSeleccionado(ClickedArray cl);
+    public interface GridListener {
+        void onBoxSelected(ClickedArray cl);
     }
 
-    public void setCorreosListener(CorreosListener listener) {
-
-
+    public void setGridListener(GridListener listener) {
+        this.mCallback = listener;
     }
-
-
-
-
-
-
 
     class MyOnClickListener implements View.OnClickListener {
         private int position;
@@ -283,7 +238,7 @@ public class GameFrag extends Fragment {
 
         public void onClick(View v) {
             if (!finished) {
-                clickedButtons.clicked(this.position);
+                clickedButtons.clicked(this.position, Integer.parseInt(minutes), Integer.parseInt(seconds));
                 switch (game.getGrid().toSimpleArray()[this.position]) {
                     case 0:
                         v.setBackgroundResource(R.drawable.empty);
@@ -359,11 +314,9 @@ public class GameFrag extends Fragment {
                 TextView textView = (TextView) getView().findViewById(R.id.GameTextView3);
                 textView.setText("Remaining Box : " + remainingBox);
             }
-            mCallback.onCorreoSeleccionado(clickedButtons);
+            mCallback.onBoxSelected(clickedButtons);
         }
     }
-
-
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -379,16 +332,17 @@ public class GameFrag extends Fragment {
         }
     }
 
-
-
     class Refresh extends Handler {
         @Override
         public void handleMessage(Message msg) {
             if (clickedButtons.getNum() != 0) {
-                for (Button but : tools.getButtons(clickedButtons.getClicked(), clickedButtons.getNum(), gridView)) { if (but.isEnabled()) {
-                    but.performClick();
+                for (Button but : tools.getButtons(clickedButtons.getClicked(), clickedButtons.getNum(), gridView)) {
+                    if (but.isEnabled()) {
+                        but.performClick();
 
-                } } }
+                    }
+                }
+            }
         }
     }
 

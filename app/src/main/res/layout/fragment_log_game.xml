@@ -14,7 +14,7 @@
         style="@style/Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_gravity="center_horizontal"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
@@ -24,6 +24,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="58dp"
+        style="@style/Text"
         android:id="@+id/GeneralInfo"/>
 
     <TextView
@@ -32,6 +33,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="106dp"
+        style="@style/Text"
         android:id="@+id/SpecificInfo"/>
 
 </RelativeLayout>
