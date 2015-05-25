@@ -5,12 +5,16 @@ public class ClickedArray {
     int[][] saveTime;
     int size;
     int num;
+    long startMinutes;
+    long startSeconds;
 
-    public ClickedArray(int size){
+    public ClickedArray(int size, long TIME){
         clickedTable = new int[size*size];
         saveTime = new int[size*size][2];
         this.size = size;
         num = 0;
+        startMinutes = TIME / 60000;
+        startSeconds = TIME % 60000 / 1000;
     }
 
     public int[] getArray(){
@@ -54,7 +58,14 @@ public class ClickedArray {
         for (int i = 0; i < num; i++) {
             int numberOfLine = clickedTable[i] / size + 1;
             int numberOfColumn = clickedTable[i] % size + 1;
-            s += "Box selected = (" + numberOfLine + ", " + numberOfColumn + ")" + "\n" + saveTime[i][0] + " : " + saveTime[i][1] + "\n";
+
+            if (saveTime[i][0] == 0 && saveTime[i][1] == 0) {
+                s += "Box selected = (" + numberOfLine + ", " + numberOfColumn + ")" + "\n";
+            }
+
+            else {
+                s += "Box selected = (" + numberOfLine + ", " + numberOfColumn + ")" + "\n" + startMinutes + " : " + startSeconds + "\n" + saveTime[i][0] + " : " + saveTime[i][1] + "\n";
+            }
         }
         return s;
     }

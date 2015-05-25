@@ -65,12 +65,16 @@ public class GameFrag extends Fragment {
         game= new tools(size, percentage);
         int numberOfMine = (int) (size * size * percentage);
         remainingBox = (size * size) - (numberOfMine);
-        TIME = size * size * 4000;
-        clickedButtons = new ClickedArray(size);
+        TIME = 0;
+        minutes = "0";
+        seconds = "0";
 
         if (timer) {
+            TIME = size * size * 4000;
             startTIME(TIME);
         }
+
+        clickedButtons = new ClickedArray(size, TIME);
 
         if (savedInstanceState != null) {
             clickedButtons.writeArray(savedInstanceState.getIntArray("clicked"));
@@ -107,7 +111,7 @@ public class GameFrag extends Fragment {
 
         boxTextView = (TextView) getView().findViewById(R.id.GameTextView3);
         boxTextView.setText("Remaining Box : " + remainingBox);
-        //Execute ths after gridview generation
+        //Execute this after gridview generation
         Handler myHandler = new Refresh();
         Message m = new Message();
         myHandler.sendMessageDelayed(m, 1000);
