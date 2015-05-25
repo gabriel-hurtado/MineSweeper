@@ -9,7 +9,7 @@
         class="com.example.gabriel.minesweeper.GameFrag"
         android:layout_height="0px"
         android:layout_width="match_parent"
-        android:layout_weight="60"
+        android:layout_weight="75"
         android:id="@+id/FrgGame"
         tools:layout="@layout/fragment_game" />
 
@@ -17,7 +17,7 @@
         class="com.example.gabriel.minesweeper.LogGameFrag"
         android:layout_height="0px"
         android:layout_width="match_parent"
-        android:layout_weight="40"
+        android:layout_weight="25"
         android:id="@+id/FrgLogGame"
         tools:layout="@layout/fragment_log_game" />
 
