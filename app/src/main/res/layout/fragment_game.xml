@@ -20,7 +20,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp" />
 
-    <LinearLayout
+    <RelativeLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,7 +34,15 @@
             android:id="@+id/GameTextView2"
             style="@style/Text"/>
 
-    </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:id="@+id/GameTextView3"
+            style="@style/Text"/>
+
+    </RelativeLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -50,14 +58,5 @@
             android:stretchMode="columnWidth"
             android:layout_gravity="center"/>
     </FrameLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/frameLayout"
-        android:layout_toRightOf="@+id/GameTextView1"
-        android:layout_toEndOf="@+id/GameTextView1"
-        android:id="@+id/GameTextView3"
-        style="@style/Text"/>
 
 </RelativeLayout>

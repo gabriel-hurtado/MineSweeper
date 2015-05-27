@@ -5,6 +5,7 @@ public class ClickedArray {
     int[][] saveTime;
     int size;
     int num;
+    long TIME;
     long startMinutes;
     long startSeconds;
 
@@ -13,6 +14,7 @@ public class ClickedArray {
         saveTime = new int[size*size][2];
         this.size = size;
         num = 0;
+        this.TIME = TIME;
         startMinutes = TIME / 60000;
         startSeconds = TIME % 60000 / 1000;
     }
@@ -59,7 +61,7 @@ public class ClickedArray {
             int numberOfLine = clickedTable[i] / size + 1;
             int numberOfColumn = clickedTable[i] % size + 1;
 
-            if (saveTime[i][0] == 0 && saveTime[i][1] == 0) {
+            if (TIME == 0) {
                 s += "Box selected = (" + numberOfLine + ", " + numberOfColumn + ")" + "\n";
             }
 
