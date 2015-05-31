@@ -164,6 +164,7 @@ public class GameFrag extends Fragment {
         if (timer) {
             gameLog.putInt("minutes", Integer.parseInt(minutes));
             gameLog.putInt("seconds", Integer.parseInt(seconds));
+            gameLog.putLong("TIME", TIME);
         }
 
         gameLog.putBoolean("victory", victory);

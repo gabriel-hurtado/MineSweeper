@@ -27,6 +27,11 @@ public class MainMenu extends Activity {
         startActivity(in);
     }
 
+    public void showSaveGame(View clickedButton) {
+        Intent in = new Intent(this, ConsultSaveGameActivity.class);
+        startActivity(in);
+    }
+
     public void quitApp(View clickedButton) {
         android.os.Process.killProcess(android.os.Process.myPid());
     }

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <fragment
+        class="com.example.gabriel.minesweeper.GameFrag"
+        android:layout_height="match_parent"
+        android:layout_width="0px"
+        android:layout_weight="60"
+        android:id="@+id/FrgList"
+        tools:layout="@layout/fragment_list" />
+
+    <fragment
+        class="com.example.gabriel.minesweeper.LogGameFrag"
+        android:layout_height="match_parent"
+        android:layout_width="0px"
+        android:layout_weight="40"
+        android:id="@+id/FrgDetail"
+        tools:layout="@layout/fragment_detail" />
+
+</LinearLayout>
