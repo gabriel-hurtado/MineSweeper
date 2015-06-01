@@ -12,6 +12,7 @@ import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -43,6 +44,7 @@ public class GameFrag extends Fragment {
     TextView boxTextView;
     public tools game;
     private ClickedArray clickedButtons;
+    int toRestore;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,6 +69,7 @@ public class GameFrag extends Fragment {
         remainingBox = (size * size) - (numberOfMine);
         TIME = 0;
         minutes = "0";
+
         seconds = "0";
 
         if (timer) {
@@ -78,7 +81,8 @@ public class GameFrag extends Fragment {
 
         if (savedInstanceState != null) {
             clickedButtons.writeArray(savedInstanceState.getIntArray("clicked"));
-            clickedButtons.writeNum(savedInstanceState.getInt("num"));
+            toRestore=savedInstanceState.getInt("num");
+            clickedButtons.writeNum(toRestore);
             game=savedInstanceState.getParcelable("CUSTOM_LISTING");
 
             if (timer) {
@@ -87,6 +91,9 @@ public class GameFrag extends Fragment {
                 TIME = Long.parseLong(minutes) * 60000 +  Long.parseLong(seconds) * 1000;
                 startTIME(TIME);
             }
+        }
+        else{
+            toRestore=0;
         }
     }
 
@@ -111,10 +118,7 @@ public class GameFrag extends Fragment {
 
         boxTextView = (TextView) getView().findViewById(R.id.GameTextView3);
         boxTextView.setText("Remaining Box : " + remainingBox);
-        //Execute this after gridview generation
-        Handler myHandler = new Refresh();
-        Message m = new Message();
-        myHandler.sendMessageDelayed(m, 1000);
+
 
         i = new Intent(getActivity(), ResultGameActivity.class);
     }
@@ -197,8 +201,8 @@ public class GameFrag extends Fragment {
             return position;
         }
 
-        public View getView(int position, View convertView, ViewGroup parent) {
-            Button btn;
+        public View getView(int position, final View convertView, ViewGroup parent) {
+            final Button btn;
             btn = new Button(mContext);
 
             btn.setBackgroundResource(R.drawable.undiscovered);
@@ -221,6 +225,26 @@ public class GameFrag extends Fragment {
                 }
             }
             btn.setOnClickListener(new MyOnClickListener(position));
+
+            if (clickedButtons.getNum() != 0) {
+                    if (tools.contains(clickedButtons.getClicked(),position)) {
+                        ViewTreeObserver vto = btn.getViewTreeObserver();
+                        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {@Override public void onGlobalLayout()
+                        {
+                            if (btn.isEnabled()) {
+                                btn.performClick();
+                            }
+
+
+                            ViewTreeObserver obs = btn.getViewTreeObserver();
+                            obs.removeGlobalOnLayoutListener(this);
+                        }
+
+
+
+
+            });
+                    }}
             return btn;
         }
     }
@@ -236,13 +260,22 @@ public class GameFrag extends Fragment {
     class MyOnClickListener implements View.OnClickListener {
         private int position;
 
+
+
         public MyOnClickListener(int position) {
             this.position = position;
         }
 
         public void onClick(View v) {
             if (!finished) {
-                clickedButtons.clicked(this.position, Integer.parseInt(minutes), Integer.parseInt(seconds));
+                //do it only the first time
+
+                if(toRestore<=0){
+                    clickedButtons.clicked(this.position, Integer.parseInt(minutes), Integer.parseInt(seconds));
+                }
+                else{
+                    toRestore-=1;
+                }
                 switch (game.getGrid().toSimpleArray()[this.position]) {
                     case 0:
                         v.setBackgroundResource(R.drawable.empty);
@@ -336,18 +369,6 @@ public class GameFrag extends Fragment {
         }
     }
 
-    class Refresh extends Handler {
-        @Override
-        public void handleMessage(Message msg) {
-            if (clickedButtons.getNum() != 0) {
-                for (Button but : tools.getButtons(clickedButtons.getClicked(), clickedButtons.getNum(), gridView)) {
-                    if (but.isEnabled()) {
-                        but.performClick();
 
-                    }
-                }
-            }
-        }
-    }
 
 }
