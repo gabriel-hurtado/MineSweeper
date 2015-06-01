@@ -20,17 +20,17 @@
                 android:text="@string/TitleMainMenu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="20dp"
                 android:layout_gravity="center_horizontal"
                 style="@style/Title"/>
 
             <Button
                 android:layout_width="120dp"
-                android:layout_height="60dp"
+                android:layout_height="wrap_content"
                 android:text="@string/StartButton"
                 style="@style/ButtonStart"
                 android:onClick="showGameStarter"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="40dp"
                 android:layout_gravity="center_horizontal" />
 
             <Button
@@ -41,6 +41,15 @@
                 android:layout_marginTop="10dp"
                 android:onClick="showHelp"
                 android:layout_gravity="center_horizontal" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ConsultButton"
+                style="@style/Button"
+                android:layout_marginTop="10dp"
+                android:onClick="showSaveGame"
+                android:layout_gravity="center_horizontal"/>
 
             <Button
                 android:layout_width="wrap_content"

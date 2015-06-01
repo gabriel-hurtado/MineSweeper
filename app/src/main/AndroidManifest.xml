@@ -31,7 +31,11 @@
         </activity>
         <activity
             android:name=".ResultGameActivity"
-            android:label="@string/title_activity_result_game">
+            android:label="@string/title_activity_result_game" >
+        </activity>
+        <activity
+            android:name=".ConsultSaveGameActivity"
+            android:label="@string/title_activity_consult_save_game" >
         </activity>
     </application>
 
