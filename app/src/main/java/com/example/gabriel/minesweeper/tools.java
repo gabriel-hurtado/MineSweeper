@@ -6,6 +6,7 @@ import android.widget.Button;
 import android.widget.GridView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -218,6 +219,15 @@ public class tools implements Parcelable {
         return output;
     }
 
+
+    public static boolean contains(final int[] array, final int key) {
+        for (final int i : array) {
+            if (i == key) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 
 }
