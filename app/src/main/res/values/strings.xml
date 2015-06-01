@@ -17,7 +17,7 @@
     <string name="TitleGame">Game</string>
     <string name="TitleResultGame">Game Result</string>
     <string name="TitleLogGame">Game Information</string>
-
+    <string name="TitleQuery">Query Result</string>
 
     <!-- Buttons -->
     <string name="ReturnMainMenuButton">Return Main Menu</string>
@@ -54,5 +54,6 @@ Uncover a number, and it tells you how many mines lay hidden in the eight surrou
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_consult_save_game">ConsultSaveGameActivity</string>
     <string name="title_activity_detail">DetailActivity</string>
+    <string name="title_activity_consult">ConsultActivity</string>
 
 </resources>

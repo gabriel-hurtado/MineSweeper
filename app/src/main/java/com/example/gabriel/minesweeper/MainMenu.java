@@ -28,7 +28,7 @@ public class MainMenu extends Activity {
     }
 
     public void showSaveGame(View clickedButton) {
-        Intent in = new Intent(this, ConsultSaveGameActivity.class);
+        Intent in = new Intent(this, AccesDBActivity.class);
         startActivity(in);
     }
 

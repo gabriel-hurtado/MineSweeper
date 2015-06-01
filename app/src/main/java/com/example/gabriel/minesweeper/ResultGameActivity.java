@@ -24,8 +24,6 @@ public class ResultGameActivity extends Activity {
     long UseTime;
     TextView Date;
     TextView GameResult;
-    private Intent in;
-    private Bundle gameLog;
     boolean timer;
     boolean victory;
     String user;
@@ -39,7 +37,8 @@ public class ResultGameActivity extends Activity {
     String message;
     Date today;
     double succes;
-
+    private Intent in;
+    private Bundle gameLog;
     private SQLiteDatabase db;
     private ContentValues newRegister;
 
@@ -178,11 +177,11 @@ public class ResultGameActivity extends Activity {
         db = gsdbh.getWritableDatabase();
         newRegister = new ContentValues();
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat(" -- yyyy-MM-dd HH:mm:ss");
 
         newRegister.put("user", user);
         newRegister.put("date", dateFormat.format(today));
-        newRegister.put("succes", succes);
+        newRegister.put("succes", succes + " % finished");
         newRegister.put("discoveringBox", totalBoxes-remainingBox);
         newRegister.put("percentage", percentage);
         newRegister.put("numberMines", totalMines);
