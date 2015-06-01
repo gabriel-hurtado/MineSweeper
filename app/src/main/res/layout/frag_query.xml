@@ -19,12 +19,18 @@
         android:layout_gravity="center_horizontal"
         android:text="@string/TitleQuery" />
 
-    <ListView
-        android:id="@android:id/list"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/showMainMenu"
-        android:layout_below="@+id/textView5" />
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ListView
+            android:id="@android:id/list"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/showMainMenu"
+            android:layout_below="@+id/textView5" />
+
+    </ScrollView>
 
     <Button
         android:id="@+id/showMainMenu"
