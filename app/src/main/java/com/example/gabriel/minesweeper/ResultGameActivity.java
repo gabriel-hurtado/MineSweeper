@@ -177,7 +177,7 @@ public class ResultGameActivity extends Activity {
         db = gsdbh.getWritableDatabase();
         newRegister = new ContentValues();
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat(" -- yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         newRegister.put("user", user);
         newRegister.put("date", dateFormat.format(today));

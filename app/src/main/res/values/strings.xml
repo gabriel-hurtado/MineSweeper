@@ -18,6 +18,7 @@
     <string name="TitleResultGame">Game Result</string>
     <string name="TitleLogGame">Game Information</string>
     <string name="TitleQuery">Query Result</string>
+    <string name="TitleRegister">Detail of the Game</string>
 
     <!-- Buttons -->
     <string name="ReturnMainMenuButton">Return Main Menu</string>
@@ -28,6 +29,7 @@
     <string name="PlayButton">Play !</string>
     <string name="SendEmail">Send e-mail</string>
     <string name="ReturnGameStarter">Return Game Starter</string>
+    <string name="ReturnAccesDB">Return Query Result</string>
 
     <!-- RadioButtons -->
     <string name="FewMinesRadioButton">15 %</string>
@@ -42,6 +44,7 @@
     <string name="Data"><u>Data of the game : </u></string>
     <string name="PercentMines"><u>% Mines : </u></string>
     <string name="Email"><u>Email Adress : </u></string>
+    <string name="toSeparate">-- </string>
     <string name="help">The rules in Minesweeper are simple: \n
 
 Uncover a mine, and the game ends. \n
@@ -55,5 +58,6 @@ Uncover a number, and it tells you how many mines lay hidden in the eight surrou
     <string name="title_activity_consult_save_game">ConsultSaveGameActivity</string>
     <string name="title_activity_detail">DetailActivity</string>
     <string name="title_activity_consult">ConsultActivity</string>
+    <string name="title_activity_detail_register">DetailRegisterActivity</string>
 
 </resources>
