@@ -5,8 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class SaveGameSQLiteHelper extends SQLiteOpenHelper {
-
-    //C:\Users\maxime\AppData\Local\Android\sdk\platform-tools
+    //cd C:\
+    //cd C:\Users\maxime\AppData\Local\Android\sdk\platform-tools
     //adb devices
     //adb -s emulator-5554 shell
     //sqlite3 /data/data/com.example.gabriel.minesweeper/databases/DBSaveGame

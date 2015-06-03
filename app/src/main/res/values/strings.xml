@@ -10,6 +10,10 @@
     <string name="title_activity_game">GameActivity</string>
     <string name="title_activity_result_game">ResultGameActivity</string>
 
+    <!-- Menu -->
+    <string name="menu_op1">Show all Game of this user</string>
+    <string name="menu_op2">Delete this game</string>
+
     <!-- Titles -->
     <string name="TitleMainMenu">Minesweeper</string>
     <string name="TitleHelp">Help</string>

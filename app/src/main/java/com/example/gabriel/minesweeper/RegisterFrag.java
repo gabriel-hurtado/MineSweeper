@@ -10,15 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 public class RegisterFrag extends Fragment {
 
     private SaveGameSQLiteHelper gsdbh;
     private SQLiteDatabase db;
-    private Bundle queryLog;
-    private String position;
     private Cursor cursor;
     private Button showQueryResultButton;
     private TextView tv;
@@ -26,8 +23,6 @@ public class RegisterFrag extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        queryLog = getActivity().getIntent().getExtras();
-        position = String.valueOf(queryLog.getInt("position"));
     }
 
     @Override
@@ -35,15 +30,19 @@ public class RegisterFrag extends Fragment {
                              Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.frag_register, container, false);
-        showQueryResultButton = (Button) v.findViewById(R.id.showQueryResult);
+        boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
 
-        showQueryResultButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg) {
-                Intent i = new Intent(getActivity(), AccesDBActivity.class);
-                startActivity(i);
-            }
-        });
+        if (!tabletSize) {
+            showQueryResultButton = (Button) v.findViewById(R.id.showQueryResult);
+
+            showQueryResultButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View arg) {
+                    Intent i = new Intent(getActivity(), AccesDBActivity.class);
+                    startActivity(i);
+                }
+            });
+        }
 
         return v;
     }
@@ -51,24 +50,31 @@ public class RegisterFrag extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+    }
 
+    public void showDetail(String id) {
         gsdbh = new SaveGameSQLiteHelper(getActivity(), "DBSaveGame", null, 1);
         db = gsdbh.getReadableDatabase();
         cursor = db.rawQuery("SELECT * FROM SaveGame", null);
 
-        if (cursor.moveToPosition(Integer.parseInt(position))) {
-            String message = "";
-            tv = (TextView) getView().findViewById(R.id.DetailGame);
+        if(cursor.moveToFirst()) {
+            do {
+                if ( cursor.getString(0).equals(id)){
+                    String message = "";
+                    tv = (TextView) getView().findViewById(R.id.DetailGame);
 
-            message += "User : " + cursor.getString(1)+ "\n"
-                        + "Date : " + cursor.getString(2)+ "\n"
-                        + "Discovering Box : " + cursor.getString(4)+ "\n"
-                        + "Percentage of mines : " + cursor.getString(5)+ "\n"
-                        + "Number of Mines : " + cursor.getString(6)+ "\n"
-                        + "Used time : " + cursor.getString(7) + " seconds" + "\n"
-                        + cursor.getString(8);
-            tv.setText(message);
+                    message += "User : " + cursor.getString(1)+ "\n"
+                            + "Date : " + cursor.getString(2)+ "\n"
+                            + "Discovering Box : " + cursor.getString(4)+ "\n"
+                            + "Percentage of mines : " + cursor.getString(5)+ "\n"
+                            + "Number of Mines : " + cursor.getString(6)+ "\n"
+                            + "Used time : " + cursor.getString(7) + " seconds" + "\n"
+                            + cursor.getString(8);
+                    tv.setText(message);
+                }
+            } while (cursor.moveToNext());
         }
+        cursor.close();
     }
 
 }

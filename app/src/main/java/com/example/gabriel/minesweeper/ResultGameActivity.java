@@ -188,7 +188,16 @@ public class ResultGameActivity extends Activity {
         newRegister.put("time", UseTime);
         newRegister.put("message", message);
 
-        db.insert("SaveGame", null, newRegister);
+        showToast((int) db.insert("SaveGame", null, newRegister));
+    }
+
+    public void showToast(int i){
+        if (i == -1){
+            Toast.makeText(this, "Failure of the operation", Toast.LENGTH_LONG).show();
+        }
+        else {
+            Toast.makeText(this, "End and succes of the operation", Toast.LENGTH_LONG).show();
+        }
     }
 
 }
